@@ -1,0 +1,39 @@
+import Dashboard from "./pages/Dashboard";
+import "./index.css";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import useNoteStore from "./store";
+import Login from "./pages/Login";
+import PrivateRoute from "./components/PrivateRoute";
+
+const App = () => {
+  
+  const {user, token} = useNoteStore()
+  const isAuth = Boolean(user && token)
+  console.log('isAuth', isAuth)
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <BrowserRouter>
+      <Routes>
+  {/* Public route for login */}
+  <Route path="/login" element={isAuth ? <Navigate to="/" replace /> : <Login />} />
+
+  <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+
+           {/* Fallback route for undefined paths */}
+           <Route path="*" element={<Navigate to={isAuth ? "/" : "/login"} replace />} />
+      
+      </Routes>
+      </BrowserRouter>
+    </div>
+  );
+};
+
+export default App;
