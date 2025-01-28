@@ -14,14 +14,13 @@ import {
   DialogActions,
   Menu,
   MenuItem,
+  useMediaQuery,
 } from "@mui/material";
-import { Edit, Delete, ArrowDropDown } from "@mui/icons-material";
-import useNoteStore from "../store";
+import { Edit, Delete } from "@mui/icons-material";
 
-const Profile = () => {
-  const { user } = useNoteStore()
-  console.log('user', user)
+const Profile = ({user, isNonMobileScreens}) => {
 
+const isSmallScreen = useMediaQuery("(max-width: 435px)")
   const [username, setUsername] = useState(user.username);
   const [password, setPassword] = useState("********");
   const [editField, setEditField] = useState(null);
@@ -42,12 +41,13 @@ const Profile = () => {
   return (
     <Box
       sx={{
+
         maxHeight: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        p: 2,
-        minWidth:220
+        direction:'rtl',
+        minWidth:'100%',
       }}
     >
       <Card
@@ -121,8 +121,20 @@ const Profile = () => {
                   sx={{ mr: 2 }}
                 />
               ) : (
+                <Box sx={{width:'100%'}}><Typography
+                  variant="body1"
+                  sx={{
+                    flexGrow: 1,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    marginBottom:'10px'
+                  }}
+                >
+                  نام کاربری: 
+                </Typography>
                 <Typography
-                  variant="h6"
+                  variant="body"
                   sx={{
                     flexGrow: 1,
                     overflow: "hidden",
@@ -130,8 +142,10 @@ const Profile = () => {
                     whiteSpace: "nowrap",
                   }}
                 >
-                  نام کاربری: {username}
+                  {username}
                 </Typography>
+                </Box>
+                
               )}
               <IconButton
                 onClick={() =>
@@ -155,17 +169,30 @@ const Profile = () => {
                   sx={{ mr: 2 }}
                 />
               ) : (
-                <Typography
-                  variant="h6"
-                  sx={{
-                    flexGrow: 1,
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  پسورد: {password}
-                </Typography>
+                <Box sx={{width:'100%'}}><Typography
+                variant="body1"
+                sx={{
+                  flexGrow: 1,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                   marginBottom:'10px'
+                }}
+              >
+              پسورد:
+              </Typography>
+              <Typography
+                variant="body"
+                sx={{
+                  flexGrow: 1,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                 {password}
+              </Typography></Box>
+                
               )}
               <IconButton
                 onClick={() =>
@@ -191,7 +218,7 @@ const Profile = () => {
                     background: "linear-gradient(90deg, #6c2b94, #186eb4)",
                   },
                 }}
-            startIcon={<ArrowDropDown />}
+            // startIcon={<ArrowDropDown />}
           >
             ذخیره تغییرات
           </Button>
@@ -201,12 +228,12 @@ const Profile = () => {
               width: "80%",
               background: "linear-gradient(90deg, #fc142f, #ff5e5b)",
               color: "#fff",
-              borderRadius: 25,
+              borderRadius:  25 ,
               "&:hover": {
                 background: "linear-gradient(90deg, #ff4c5b, #ffae58)",
               },
             }}
-            startIcon={<Delete />}
+            startIcon={ !isSmallScreen && <Delete />}
             onClick={() => setOpenDeleteDialog(true)}
           >
             حذف پروفایل 

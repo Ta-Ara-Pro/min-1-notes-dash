@@ -23,18 +23,20 @@ const NoteItem = ({ note, onDelete }) => {
         borderRadius: "12px",
         overflow: "hidden",
         direction: "rtl",
-        cursor:'pointer'
+        cursor: 'pointer',
+        transition: 'transform 0.3s ease-in-out', 
+        '&:hover': { transform: 'scale(1.04)'} 
       }}
     >
       <CardContent>
-        <Typography
+        {/* <Typography
           variant="h6"
           color="primary"
           gutterBottom
           sx={{ textAlign: "right" }}
         >
           مهارت‌های یک توسعه‌دهنده فرانت‌اند
-        </Typography>
+        </Typography> */}
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -56,10 +58,10 @@ const NoteItem = ({ note, onDelete }) => {
               <TableRow>
                 <TableCell align="right">{note.title}</TableCell>
                 <TableCell align="right" sx={{
-                   overflow: "hidden", 
-                   textOverflow: "ellipsis",
-                   whiteSpace: "nowrap", 
-                   maxWidth: "200px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  maxWidth: "200px",
                 }}
                 >{note.note}
                 </TableCell>
@@ -70,10 +72,10 @@ const NoteItem = ({ note, onDelete }) => {
                     : null
                 }
                 <TableCell align="right">   {new Date(note.date).toLocaleDateString("fa-IR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })}</TableCell>
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}</TableCell>
                 <TableCell align="right">
                   <Button
                     variant="text"

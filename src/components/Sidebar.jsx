@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Drawer,
@@ -10,6 +10,7 @@ import {
   IconButton,
   Typography,
   Tooltip,
+  Divider,
 } from '@mui/material';
 import {
   Home as HomeIcon,
@@ -18,101 +19,101 @@ import {
   Logout as LogoutIcon,
   Menu as MenuIcon,
 } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+const Sidebar = ({ isOpen, toggleDrawer, shrinkDrawer, isSmallScreen}) => {
 
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
+   // Adjust the drawer state on screen size change
+   useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        shrinkDrawer(false); // Shrink sidebar on smaller screens
+      } else {
+        shrinkDrawer(true); // Expand sidebar on larger screens
+      }
+    };
+
+    handleResize(); // Adjust on mount
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const menuItems = [
-    { text: 'ایجاد یادداشت', icon: <HomeIcon /> },
-    { text: 'یادداشت ها', icon: <InfoIcon /> },
-    { text: 'پروفایل', icon: <SettingsIcon /> },
+    { text: 'ایجاد یادداشت', icon: <HomeIcon />, path: '/?tab=create' },
+    { text: 'یادداشت ها', icon: <InfoIcon />, path: '/?tab=notes' },
+    { text: 'پروفایل', icon: <SettingsIcon />, path: '/?tab=profile' },
     { text: 'خروج', icon: <LogoutIcon /> },
   ];
 
-  return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', position: 'relative' }}>
-    {/* Sidebar Drawer */}
-    <Drawer
-      variant="permanent" 
-      anchor="right"
-      open={isOpen}
-      sx={{
-        width: isOpen ? 240 : 60,
-        flexShrink: 0,
-        '& .MuiDrawer-paper': {
-          width: isOpen ? 240 : 60,
-          overflowX: 'hidden', 
-          transition: 'width 0.3s ease-in-out',
-          boxSizing: 'border-box',
-        },
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          p: 2,
-        }}
-      >
-        {isOpen && <Typography variant="h6">داشبورد </Typography>}
-        <IconButton onClick={toggleDrawer}>
-          <MenuIcon />
-        </IconButton>
-      </Box>
-      <List>
-        {menuItems.map((item, index) => (
-          <ListItem key={index} disablePadding>
-            <Tooltip title={!isOpen ? item.text : ''} placement="right">
-              <ListItemButton>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                {isOpen && <ListItemText primary={item.text} />}
-              </ListItemButton>
-            </Tooltip>
-          </ListItem>
-        ))}
-      </List>
-    </Drawer>
 
-    {/* Floating Toggle Button */}
-    {/* {!isOpen && (
-      <IconButton
-        onClick={toggleDrawer}
-        sx={{
-          position: 'fixed',
-          top: 20,
-          left: 10,
-          zIndex: 1200,
-          backgroundColor: 'white',
-          boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-          '&:hover': {
-            backgroundColor: 'rgba(0,0,0,0.1)',
+  return (
+    <Box sx={{
+      width: { xs: '100%', md: '15rem' },
+      display: 'flex',
+      justifyContent: 'flex-start',
+      direction:'rtl',
+      background: 'red',
+      position:'relative'
+    }}>
+      <Drawer
+        variant="permanent"
+        anchor="right"
+        open={isOpen}
+        sx={{ 
+          width: isOpen ? 240 : 60,
+          '& .MuiDrawer-paper': {
+            width: isSmallScreen ? (isOpen ? 240 : 0) : isOpen ? 240 :60,
+            overflowX: 'hidden',
+            transition: 'width 0.3s ease-in-out',
+            boxSizing: 'border-box',
+            boxShadow: 5,
+            borderTopLeftRadius:'15px',
+            borderBottomLeftRadius:'10px',
+            background: isOpen ? "rgb(194, 194, 194)" : "rgba(208, 240, 250, 0.23)",
           },
         }}
       >
-        <MenuIcon />
-      </IconButton>
-    )} */}
-
-      {/* Main Content */}
-      {/* <Box
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          transition: 'margin-left 0.3s ease-in-out',
-          ml: isOpen ? 240 : 60,
-        }}
-      >
-        <Typography variant="h4">Welcome to the App!</Typography>
-        <Typography>
-          This is the main content area. You can add your application content here.
-        </Typography>
-      </Box> */}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            p: '3', 
+          }}
+        >
+          {isOpen && <Typography variant="h6" sx={{p:'10px'}}>داشبورد</Typography>}
+          <IconButton onClick={toggleDrawer}>
+            <MenuIcon />
+          </IconButton>
+        </Box>
+        <Divider
+      sx={{
+        width: "100%",
+        borderColor: "rgba(0, 0, 0, 0.09)", 
+        borderWidth: "1px", 
+      }}
+    />
+        <List>
+          {menuItems.map((item, index) => (
+            <ListItem key={index} disablePadding>
+              <Tooltip title={!isOpen ? item.text : ''} placement="right">
+                <Link to={item.path}>
+                  <ListItemButton >
+                    <ListItemIcon sx={{marginY:2}}>{item.icon}</ListItemIcon>
+                    {isOpen && <ListItemText primary={item.text} />}
+                  </ListItemButton>
+                </Link>
+              </Tooltip>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+      
     </Box>
+
+   
   );
 };
 

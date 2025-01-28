@@ -6,19 +6,19 @@ import Login from "./pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
 
 const App = () => {
-  
-  const {user, token} = useNoteStore()
+
+  const { user, token } = useNoteStore()
   const isAuth = Boolean(user && token)
   console.log('isAuth', isAuth)
 
   return (
     <div className="min-h-screen bg-gray-50">
       <BrowserRouter>
-      <Routes>
-  {/* Public route for login */}
-  <Route path="/login" element={isAuth ? <Navigate to="/" replace /> : <Login />} />
+        <Routes>
+          {/* Public route for login */}
+          <Route path="/login" element={isAuth ? <Navigate to="/" replace /> : <Login />} />
 
-  <Route
+          <Route
             path="/"
             element={
               <PrivateRoute>
@@ -27,10 +27,10 @@ const App = () => {
             }
           />
 
-           {/* Fallback route for undefined paths */}
-           <Route path="*" element={<Navigate to={isAuth ? "/" : "/login"} replace />} />
-      
-      </Routes>
+          {/* Fallback route for undefined paths */}
+          <Route path="*" element={<Navigate to={isAuth ? "/" : "/login"} replace />} />
+
+        </Routes>
       </BrowserRouter>
     </div>
   );
