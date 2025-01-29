@@ -9,6 +9,8 @@ const useNoteStore = create((set) => ({
   user: JSON.parse(localStorage.getItem('user')) || null,
   token: localStorage.getItem('token') || '',
 
+  mode: localStorage.getItem("theme") || "light", 
+
   addNote: (note) => {
     set(
       (state) => {
@@ -36,6 +38,13 @@ const useNoteStore = create((set) => ({
       localStorage.removeItem('token');
       set({ user: null, token: '', notes: [] }); 
     },
+    // theme:
+    toggleTheme: () => 
+      set((state) => {
+        const newMode = state.mode === "light" ? "dark" : "light";
+        localStorage.setItem("theme", newMode)
+        return { mode: newMode}
+      })
 
 }));
 

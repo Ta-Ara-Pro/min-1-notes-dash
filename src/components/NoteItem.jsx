@@ -20,7 +20,7 @@ const NoteItem = ({ note, onDelete }) => {
       sx={{
         margin: "16px 0",
         boxShadow: 3,
-        borderRadius: "12px",
+        borderRadius: "25px",
         overflow: "hidden",
         direction: "rtl",
         cursor: 'pointer',
@@ -28,7 +28,28 @@ const NoteItem = ({ note, onDelete }) => {
         '&:hover': { transform: 'scale(1.04)'} 
       }}
     >
-      <CardContent>
+      <CardContent
+      sx={{
+        background:
+          note.state === 'archived'
+            ? 'rgb(140, 195, 240)'
+            : note.state === 'active'
+            ? 'rgb(140, 240, 148)'
+            : note.state === 'inactive'
+            ? 'rgb(240, 140, 140)'
+            : 'transparent', 
+      borderRadius:'25px',
+      border: 
+      note.state === 'archived'
+      ? '4px solid rgb(140, 195, 240)'
+      : note.state === 'active'
+      ? '4px solid rgb(140, 240, 148)'
+      : note.state === 'inactive'
+      ? '4px solid rgb(240, 140, 140)'
+      : '4px solid transparent', 
+          
+       }}
+    >
         {/* <Typography
           variant="h6"
           color="primary"
@@ -37,10 +58,19 @@ const NoteItem = ({ note, onDelete }) => {
         >
           مهارت‌های یک توسعه‌دهنده فرانت‌اند
         </Typography> */}
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{borderRadius:'25px',
+          border: 
+          note.state === 'archived'
+          ? '4px solid rgb(140, 195, 240)'
+          : note.state === 'active'
+          ? '4px solid rgb(140, 240, 148)'
+          : note.state === 'inactive'
+          ? '4px solid rgb(240, 140, 140)'
+          : '4px solid transparent', 
+        }}>
           <Table>
             <TableHead>
-              <TableRow>
+              <TableRow >
                 <TableCell align="right">عنوان</TableCell>
                 <TableCell align="right">یادداشت</TableCell>
                 <TableCell align="right">وضعیت</TableCell>

@@ -1,1 +1,27 @@
-
+@font-face { 
+    font-family: 'Sahel';
+    src: url('/fonts/Sahel.woff2') format('woff2'),
+         url('/fonts/Sahel.woff') format('woff'),
+         url('/fonts/Sahel.ttf') format('truetype');
+    font-weight: normal;
+  }
+  
+  @font-face {
+    font-family: 'Sahel';
+    src: url('/fonts/Sahel-Bold.woff2') format('woff2'),
+         url('/fonts/Sahel-Bold.woff') format('woff'),
+         url('/fonts/Sahel-Bold.ttf') format('truetype');
+    font-weight: bold;
+  }
+  
+  /* اعمال فونت برای کل سایت */
+  /* body {
+    font-family: 'Sahel', sans-serif;
+  } */
+  
+  html,
+body,
+#root,
+.app {
+  font-family: 'Sahel', sans-serif;
+}

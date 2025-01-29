@@ -289,6 +289,11 @@ const AddNoteForm = ({ addNote }) => {
                 error={!!error}
                 helperText={error ? error.message : null}
                 fullWidth
+                slotProps={{
+                  formHelperText: {
+                    style: { textAlign: "right" }, // Apply your style here
+                  },
+                }}
               />
             </Tooltip>
           )}
@@ -316,6 +321,11 @@ const AddNoteForm = ({ addNote }) => {
                 error={!!error}
                 helperText={error ? error.message : null}
                 fullWidth
+                slotProps={{
+                  formHelperText: {
+                    style: { textAlign: "right" }, // Apply your style here
+                  },
+                }}
               />
             </Tooltip>
           )}
@@ -333,26 +343,31 @@ const AddNoteForm = ({ addNote }) => {
       >
         {/* State Select */}
         <Box width="100%">
-          <Typography variant="body1" component="label" htmlFor="state">
-            وضعیت
-          </Typography>
-          <Controller
-            name="state"
-            control={control}
-            defaultValue=""
-            rules={{ required: "وضعیت الزامی است" }}
-            render={({ field, fieldState: { error } }) => (
-              <FormControl variant="outlined" fullWidth error={!!error}>
-                <Select {...field} id="state">
-                  <MenuItem value="فعال">فعال</MenuItem>
-                  <MenuItem value="غیرفعال">غیرفعال</MenuItem>
-                  <MenuItem value="آرشیو شده">آرشیو شده</MenuItem>
-                </Select>
-                {error && <FormHelperText>{error.message}</FormHelperText>}
-              </FormControl>
-            )}
-          />
-        </Box>
+  <Typography variant="body1" component="label" htmlFor="state">
+    وضعیت
+  </Typography>
+  <Controller
+    name="state"
+    control={control}
+    defaultValue=""
+    rules={{ required: "وضعیت الزامی است" }}
+    render={({ field, fieldState: { error } }) => (
+      <FormControl 
+        variant="outlined" 
+        fullWidth 
+        error={!!error}
+      >
+        <Select {...field} id="state">
+          <MenuItem value="فعال">فعال</MenuItem>
+          <MenuItem value="غیرفعال">غیرفعال</MenuItem>
+          <MenuItem value="آرشیو شده">آرشیو شده</MenuItem>
+        </Select>
+        {error && <FormHelperText style={{ textAlign: "right" }}>{error.message}</FormHelperText>}
+      </FormControl>
+    )}
+  />
+</Box>
+
 
         {/* Conditional Field: Important */}
         {selectedState === "آرشیو شده" && (

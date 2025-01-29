@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, IconButton, InputBase, Menu, MenuItem, Typography, useMediaQuery } from "@mui/material";
+import { Box, IconButton, InputBase, Menu, MenuItem, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { FilterList, Search, AccountCircle } from "@mui/icons-material";
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ViewHeadlineIcon from '@mui/icons-material/ViewHeadline';
@@ -9,6 +9,7 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
     const isMobileScreen = useMediaQuery("(max-width: 530px)")
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
+    const { palette } = useTheme()
 
     // Open Filter Menu
     const handleMenuOpen = (event) => {
@@ -29,7 +30,7 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
                 justifyContent: "space-between",
                 alignItems: isMobileScreen ? "start" : "center",
                 padding: isNonMobileScreens ? "1rem 2rem" : "0.5rem 1rem",
-                background: "rgba(208, 240, 250, 0.23)",
+                background: palette.primary.light,
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
                 borderRadius: '15px',
                 marginBottom: '2rem',
@@ -37,14 +38,6 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
                 direction: 'rtl'
             }}
         >
-            {/* User Widget */}
-            {/* {!isMobileScreen &&
-                <Box display="flex" alignItems="center" gap="1rem">
-                    <AccountCircle sx={{ fontSize: "2rem" }} />
-                    {isNonMobileScreens && <Typography variant="h6">{user.username}</Typography>}
-                </Box>} */}
-
-            {/* Search Bar */}
             <Box
                 sx={{
                     display: "flex",

@@ -17,14 +17,9 @@ import {
   Tooltip,
   useMediaQuery,
   Divider,
+  useTheme,
 } from '@mui/material';
-import {
-  Home as HomeIcon,
-  Info as InfoIcon,
-  Settings as SettingsIcon,
-  Logout as LogoutIcon,
-  Menu as MenuIcon,
-} from '@mui/icons-material';
+import { Menu as MenuIcon } from '@mui/icons-material';
 import { useLocation } from "react-router-dom";
 import Profile from "../components/Profile";
 import NoteList from "../components/NoteList";
@@ -33,7 +28,8 @@ import NoteGrid from '../components/NoteGrid'
 const Dashboard = () => {
   const location = useLocation()
   const [tab, setTab] = useState('')
-  const { notes, addNote, deleteNote } = useNoteStore();
+  const { notes, addNote, deleteNote, mode } = useNoteStore();
+  const { palette } = useTheme()
   const [isOpen, setIsOpen] = useState(true);
   const [viewMode, setViewMode] = useState('row')
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
@@ -75,12 +71,8 @@ const Dashboard = () => {
   return (
     <Box
       sx={{
-        // display:'flex', justifyItems:"center",alignItems:'center',
         minHeight: '100vh',
         padding: '2rem',
-        background: "linear-gradient(90deg,rgba(33, 149, 243, 0.21),rgba(105, 27, 154, 0.32))",
-        // background: "linear-gradient(90deg, #2196f3, #6a1b9a)",
-
       }}
     >
         {/* Floating Toggle Button */}
@@ -113,22 +105,20 @@ const Dashboard = () => {
           borderRadius: '15px',
           paddingX: isNonMobileScreens ? '3rem' : '2rem',
           paddingY: isNonMobileScreens ? '2rem' : '1rem',
-          background: "linear-gradient(90deg, #2195f36d, #691b9a79)",
+          background: palette.primary.main,
           marginTop: isSmallScreen && '1rem'
-          // background: "linear-gradient(90deg, #2196f3, #6a1b9a)",
-
         }}
       >
         {tab === 'notes' && <Navbar user={user} toggleViewMode={toggleViewMode} viewMode={viewMode}/>}
         {/* Sidebar Drawer */}
-        <Sidebar isOpen={isOpen} toggleDrawer={toggleDrawer} shrinkDrawer={shrinkDrawer} isSmallScreen={isSmallScreen}/>
+        <Sidebar isOpen={isOpen} toggleDrawer={toggleDrawer} shrinkDrawer={shrinkDrawer} isSmallScreen={isSmallScreen} mode={mode}/>
 
         {/* Main Content */}
         <Box flexBasis={isNonMobileScreens ? '52%' : '62%'}>
           {tab === 'create' && <AddNoteForm addNote={addNote} />}
           {tab === 'notes' &&
             viewMode === 'row' ? <NoteList notes={notes} deleteNote={deleteNote} />
-            : <NoteGrid />
+            : <NoteGrid notes={notes} deleteNote={deleteNote}/>
           }
           {tab === 'profile' && <Profile user={user} isNonMobileScreens={isNonMobileScreens} />}
         </Box>
