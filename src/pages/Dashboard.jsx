@@ -28,7 +28,7 @@ import NoteGrid from '../components/NoteGrid'
 const Dashboard = () => {
   const location = useLocation()
   const [tab, setTab] = useState('')
-  const { notes, addNote, deleteNote, mode } = useNoteStore();
+  const { notes, addNote, deleteNote, mode, searchedNotes } = useNoteStore();
   const { palette } = useTheme()
   const [isOpen, setIsOpen] = useState(true);
   const [viewMode, setViewMode] = useState('row')
@@ -65,6 +65,12 @@ const Dashboard = () => {
   // =============================
   const { user } = useNoteStore()
   console.log('user', user)
+
+  // UPDATE SEARCH QUERY ===========
+  // ===============================
+  // useEffect(() => {
+
+  // },[searchedNotes])
 
 
 
@@ -119,7 +125,7 @@ const Dashboard = () => {
           {tab === 'create' && <AddNoteForm addNote={addNote} />}
           {tab === 'notes' &&
             <NoteList
-              notes={notes}
+              notes={searchedNotes}
               deleteNote={deleteNote}
               isMobileScreen={isMobileScreen}
               isSmallScreen={isSmallScreen }

@@ -1,25 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, IconButton, InputBase, Menu, MenuItem, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { FilterList, Search, AccountCircle } from "@mui/icons-material";
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ViewHeadlineIcon from '@mui/icons-material/ViewHeadline';
+import useNoteStore from "../store";
 
 const Navbar = ({ user, toggleViewMode, viewMode }) => {
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
     const isMobileScreen = useMediaQuery("(max-width: 530px)")
     const [anchorEl, setAnchorEl] = useState(null);
+    const { searchNotes, searchedNotes, filterNotes } = useNoteStore()
     const isMenuOpen = Boolean(anchorEl);
     const { palette } = useTheme()
 
-    // Open Filter Menu
+    // Open Filter Menu ==============
+    // =================================
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
-    // Close Filter Menu
-    const handleMenuClose = () => {
+
+    const [searchQuery, setSearchQuery] = useState('')
+    // Close Filter Menu ==============
+    // =================================
+    const handleMenuClose = (e) => {
+        filterNotes(e.target.value)
+        setSearchQuery(e.target.value)
+
         setAnchorEl(null);
     };
+
+    useEffect(() => {
+        console.log('filter query', searchQuery)
+    }, [searchQuery])
+
+    // console.log('filter', searchedNotes)
+
+
+    // Searching Function ==============
+    // =================================
+    const handleSearch = (event) => {
+        searchNotes(event.target.value);
+    };
+
+
 
 
     return (
@@ -54,6 +78,7 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
                     placeholder="جست و جو..."
                     fullWidth
                     sx={{ flex: 1 }}
+                    onChange={handleSearch}
                 />
                 <IconButton>
                     <Search />
@@ -62,7 +87,7 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
 
             <Box
                 sx={{
-                    display: 'flex', 
+                    display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'end',
                     gap: '5px',
@@ -88,9 +113,10 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
                         transformOrigin={{ vertical: "top", horizontal: "right" }}
                         sx={{ direction: "rtl" }}
                     >
-                        <MenuItem onClick={handleMenuClose}>فعال</MenuItem>
-                        <MenuItem onClick={handleMenuClose}>غیر فعال</MenuItem>
-                        <MenuItem onClick={handleMenuClose}>آرشیو شده</MenuItem>
+                        <MenuItem onClick={() => handleMenuClose("فعال")}>فعال</MenuItem>
+                        <MenuItem onClick={() => handleMenuClose("غیر فعال")}>غیر فعال</MenuItem>
+                        <MenuItem onClick={() => handleMenuClose("آرشیو شده")}>آرشیو شده</MenuItem>
+                        <MenuItem onClick={() => handleMenuClose("منتخب")}> منتخب</MenuItem>
                     </Menu>
                 </Box>
 

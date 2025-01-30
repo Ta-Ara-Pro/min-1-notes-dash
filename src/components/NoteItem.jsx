@@ -127,7 +127,7 @@ const NoteItem = ({ note, onDelete, isSmallScreen }) => {
                   month: "long",
                   day: "numeric",
                 })}</TableCell>
-                <TableCell align="right">
+                <TableCell align="right" sx={{justifyContent:'space-between', background: 'blue'}}>
                   <Button
                     variant="text"
                     color="error"
@@ -144,6 +144,23 @@ const NoteItem = ({ note, onDelete, isSmallScreen }) => {
                     }}
                   >
                     حذف
+                  </Button>
+                  <Button
+                    variant="text"
+                    color="error"
+                    onClick={() => setOpenDeleteDialog(true)}
+                    sx={{
+                      display: "inline-block", 
+                      width: "auto",
+                      padding: "8px 10px",
+                      color: palette.Button.redBgColor,
+                      borderRadius: "12px",
+                      background:'rgb(250, 151, 151)',
+                      fontSize: isSmallScreen ? "0.65rem" : "0.9rem",
+                      "&:hover": { textDecoration: "underline" },
+                    }}
+                  >
+                    اصلاح
                   </Button>
                 </TableCell>
               </TableRow>
