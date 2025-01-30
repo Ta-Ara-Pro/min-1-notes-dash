@@ -72,53 +72,59 @@ const Dashboard = () => {
     <Box
       sx={{
         minHeight: '100vh',
-        padding: '2rem',
+        padding: isMobileScreen ? '1rem' : '2rem',
       }}
     >
-        {/* Floating Toggle Button */}
-    {isSmallScreen && (
-      <IconButton
-        onClick={toggleDrawer}
-        sx={{
-          position: 'absolute',
-          top: 5,
-          right: 5,
-          zIndex: 1200,
-          backgroundColor: 'rgba(158, 158, 158, 0.25)',
-          boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-          '&:hover': {
-            backgroundColor: 'rgba(0,0,0,0.1)',
-          },
-        }}
-      >
-        <MenuIcon />
-      </IconButton>
-    )}
+      {/* Floating Toggle Button */}
+      {isSmallScreen && (
+        <IconButton
+          onClick={toggleDrawer}
+          sx={{
+            position: 'absolute',
+            top: 5,
+            right: 5,
+            zIndex: 1200,
+            backgroundColor: 'rgba(158, 158, 158, 0.25)',
+            boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+            '&:hover': {
+              backgroundColor: 'rgba(0,0,0,0.1)',
+            },
+          }}
+        >
+          <MenuIcon />
+        </IconButton>
+      )}
       <Box
         sx={{
           // display:'flex', justifyItems:"center",alignItems:'center',
-          overflowX:'hidden',
+          overflowX: 'hidden',
           minHeight: '100vh',
           minWidth: '200px',
-          transition: 'margin-right 0.3s ease-in-out',
-          marginRight: isOpen ? '240px' : '45px',
+          width: isSmallScreen ? '100%' : 'auto',
+          transition: 'margin-right 0.3s ease-in-out , width 0.5s ease-in-out',
+          marginRight: isOpen ? '240px' : isMobileScreen ? '50px' : '45px',
           borderRadius: '15px',
-          paddingX: isNonMobileScreens ? '3rem' : '2rem',
+          paddingX: isNonMobileScreens ? '3rem' : isMobileScreen ? '1rem' : '2rem',
           paddingY: isNonMobileScreens ? '2rem' : '1rem',
           background: palette.primary.main,
-          marginTop: isSmallScreen && '1rem'
+          marginTop: isSmallScreen && '2rem'
         }}
       >
-        {tab === 'notes' && <Navbar user={user} toggleViewMode={toggleViewMode} viewMode={viewMode}/>}
+        {tab === 'notes' && <Navbar user={user} toggleViewMode={toggleViewMode} viewMode={viewMode} />}
         {/* Sidebar Drawer */}
-        <Sidebar isOpen={isOpen} toggleDrawer={toggleDrawer} shrinkDrawer={shrinkDrawer} isSmallScreen={isSmallScreen} mode={mode}/>
+        <Sidebar isOpen={isOpen} toggleDrawer={toggleDrawer} shrinkDrawer={shrinkDrawer} isSmallScreen={isSmallScreen} mode={mode} />
 
         {/* Main Content */}
         <Box flexBasis={isNonMobileScreens ? '52%' : '62%'}>
           {tab === 'create' && <AddNoteForm addNote={addNote} />}
           {tab === 'notes' &&
-            viewMode === 'row' ? <NoteList notes={notes} deleteNote={deleteNote} />
-            : <NoteGrid notes={notes} deleteNote={deleteNote}/>
+            <NoteList
+              notes={notes}
+              deleteNote={deleteNote}
+              isMobileScreen={isMobileScreen}
+              isSmallScreen={isSmallScreen }
+              viewMode={viewMode}
+            />
           }
           {tab === 'profile' && <Profile user={user} isNonMobileScreens={isNonMobileScreens} />}
         </Box>

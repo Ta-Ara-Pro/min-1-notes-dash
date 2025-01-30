@@ -227,6 +227,7 @@ import {
   FormControlLabel,
   Box,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useForm, Controller } from "react-hook-form";
@@ -240,6 +241,7 @@ const AddNoteForm = ({ addNote }) => {
   const isSmallScreen = useMediaQuery("(max-width: 460px)")
   const { handleSubmit, reset, control, watch } = useForm();
   const date = new Date().toLocaleDateString("fa-IR");
+  const { palette } = useTheme()
   const selectedState = watch("state");
 
   const onSubmit = (data) => {
@@ -261,7 +263,7 @@ const AddNoteForm = ({ addNote }) => {
         // marginRight:'5rem',
         border: "1px solid #ccc",
         borderRadius: "8px",
-        backgroundColor: "rgba(249, 249, 249, 0.26)",
+        backgroundColor: palette.primary.light,
         // minWidth: 200,
         direction: 'rtl'
       }}
@@ -291,9 +293,10 @@ const AddNoteForm = ({ addNote }) => {
                 fullWidth
                 slotProps={{
                   formHelperText: {
-                    style: { textAlign: "right" }, // Apply your style here
+                    style: { textAlign: "right" }, 
                   },
                 }}
+               
               />
             </Tooltip>
           )}
@@ -326,6 +329,7 @@ const AddNoteForm = ({ addNote }) => {
                     style: { textAlign: "right" }, // Apply your style here
                   },
                 }}
+               
               />
             </Tooltip>
           )}
@@ -400,7 +404,8 @@ const AddNoteForm = ({ addNote }) => {
                   <label
                     htmlFor="datepicker"
                     style={{
-                      border: "1px solid lightgray",
+                      border: `1px solid ${palette.primary.outline}`,
+                      borderRadius: '5px',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -408,6 +413,7 @@ const AddNoteForm = ({ addNote }) => {
                       padding: '1rem',
                       gap: '10px',
                     }}
+           
                   >
                     {!isSmallScreen && <CalendarMonthIcon sx={{ cursor: 'pointer' }} />}
                     <DatePicker

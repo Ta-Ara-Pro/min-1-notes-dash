@@ -9,13 +9,13 @@ const useNoteStore = create((set) => ({
   user: JSON.parse(localStorage.getItem('user')) || null,
   token: localStorage.getItem('token') || '',
 
-  mode: localStorage.getItem("theme") || "light", 
+  mode: localStorage.getItem("theme") || "light",
 
   addNote: (note) => {
     set(
       (state) => {
         const updatedNotes = [...state.notes, { ...note }];
-        localStorage.setItem('notes', JSON.stringify(updatedNotes)); 
+        localStorage.setItem('notes', JSON.stringify(updatedNotes));
         return { notes: updatedNotes };
       }
     )
@@ -26,25 +26,39 @@ const useNoteStore = create((set) => ({
       localStorage.setItem('notes', JSON.stringify(updatedNotes)); // Update localStorage
       return { notes: updatedNotes };
     }),
-   // Set user data and token, and persist them in localStorage
-   setUser: (user, token) => {
+  // Set user data and token, and persist them in localStorage
+  setUser: (user, token) => {
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token', token);
     set({ user, token });
   },
-    // Logout: 
-    logout: () => {
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
-      set({ user: null, token: '', notes: [] }); 
-    },
-    // theme:
-    toggleTheme: () => 
-      set((state) => {
-        const newMode = state.mode === "light" ? "dark" : "light";
-        localStorage.setItem("theme", newMode)
-        return { mode: newMode}
-      })
+  // Logout: 
+  logout: () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    set({ user: null, token: '', notes: [] });
+  },
+  // theme:
+  toggleTheme: () =>
+    set((state) => {
+      const newMode = state.mode === "light" ? "dark" : "light";
+      localStorage.setItem("theme", newMode)
+      return { mode: newMode }
+    }),
+  // ُstaring note
+  starNote: (index) => {
+    set((state) => {
+      const updatedNotes = [...state.notes];
+      const note = updatedNotes[index];
+      note.isStarred = !note.isStarred; 
+      localStorage.setItem('notes', JSON.stringify(updatedNotes)); 
+  console.log('starred note', note)
+
+      return { notes: updatedNotes };
+    });
+  }
+
+
 
 }));
 

@@ -4,7 +4,7 @@ export const lightTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "rgb(230, 230, 230)",
+      main: "rgb(223, 223, 223)",
       light: "rgba(238, 238, 238, 0.9)",
     },
     background: {
@@ -25,7 +25,8 @@ export const darkTheme = createTheme({
     mode: "dark",
     primary: {
       main: "rgb(96, 95, 97)",
-      light: "rgb(127, 126, 128)",
+      light: "rgb(141, 141, 141)",
+      outline: "rgb(175, 175, 175)"
     },
     background: {
       default: "rgb(65, 63, 63)",
