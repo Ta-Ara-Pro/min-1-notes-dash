@@ -4,6 +4,7 @@ import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
 import StarIcon from '@mui/icons-material/Star';
 const NoteGrid = ({ note, deleteNote, onStar }) => {
   const theme = useTheme();
+  const { palette} = useTheme();
   const [isStarred, setIsStarred] = useState(note.isStarred || false);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -33,7 +34,7 @@ const NoteGrid = ({ note, deleteNote, onStar }) => {
             note.state === 'active'
               ? ' rgb(212, 247, 237)'
               : note.state === 'inactive'
-                ? ' rgb(251, 226, 243)'
+                ? palette.Button.red
                 : note.state === 'archived'
                   ? ' rgb(226, 219, 250)'
                   : ' transparent',
@@ -54,7 +55,8 @@ const NoteGrid = ({ note, deleteNote, onStar }) => {
             <Typography
               variant={isSmallScreen ? "body1" : "h6"}
               fontWeight="bold"
-              backgroundColor='white'
+              backgroundColor={ palette.background.paper}
+              color={ palette.text.light}
               padding='2px 8px'
               borderRadius='12px'
               fontSize={isSmallScreen ? "0.65rem" : "0.9rem"}
@@ -69,7 +71,7 @@ const NoteGrid = ({ note, deleteNote, onStar }) => {
               variant="body2"
               color="text.secondary"
               fontSize={isSmallScreen ? "0.65rem" : "0.775rem"}
-              backgroundColor='white'
+              backgroundColor={ palette.background.paper}
               borderRadius='50%'
             >
               <IconButton onClick={onStar} >
@@ -84,7 +86,7 @@ const NoteGrid = ({ note, deleteNote, onStar }) => {
             <Typography
               variant="caption"
               fontWeight="bold"
-              color="text.secondary"
+              color={palette.text.dark}
               fontSize={isSmallScreen ? "0.8rem" : "1rem"}
             >
               {note.title}
@@ -96,6 +98,7 @@ const NoteGrid = ({ note, deleteNote, onStar }) => {
               textOverflow="ellipsis"
               whiteSpace="nowrap"
               overflow="hidden"
+              color= {palette.text.dark}
             >
               {note.note}
             </Typography>
@@ -126,7 +129,8 @@ const NoteGrid = ({ note, deleteNote, onStar }) => {
               fontSize: isSmallScreen ? "0.75rem" : "0.8rem",
               background:'rgb(240, 113, 113)',
               borderRadius:'20px',
-              margin:'10px 0px'
+              margin:'10px 0px',
+              color: palette.Button.redBgColor
             }}
             onClick={() => setOpenDeleteDialog(true)}
           >

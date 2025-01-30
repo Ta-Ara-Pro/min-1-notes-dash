@@ -40,6 +40,7 @@ const NoteList = ({ notes, deleteNote, isMobileScreen, isSmallScreen, viewMode }
               note={note}
               onDelete={() => deleteNote(index)}
               onStar={() => starNote(index)}
+              isSmallScreen={isSmallScreen}
             />
 
         ))
