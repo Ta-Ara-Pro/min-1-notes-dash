@@ -4,7 +4,8 @@ import { create } from 'zustand';
 const useNoteStore = create((set, get) => ({
   // Initialize the store with notes from localStorage if available
   notes: JSON.parse(localStorage.getItem('notes')) || [],
-  searchedNotes: JSON.parse(localStorage.getItem('notes')) || [],
+  searchedNotes: [],
+  // searchedNotes: JSON.parse(localStorage.getItem('notes')) || [],
 
   // Initialize user and token from localStorage
   user: JSON.parse(localStorage.getItem('user')) || null,
@@ -17,36 +18,47 @@ const useNoteStore = create((set, get) => ({
       (state) => {
         const updatedNotes = [...state.notes, { ...note }];
         localStorage.setItem('notes', JSON.stringify(updatedNotes));
-        return { notes: updatedNotes };
+        return { 
+          notes: updatedNotes,
+          searchedNotes: updatedNotes,
+        };
       }
     )
   },
-  editNote: (index, newTitle, newContent, newState, newDate, newImportant) =>
+  editNote: (index, data) =>
     set((state) => {
       if (index < 0 || index >= state.notes.length) return { error: "یادداشت مورد نظر یافت نشد" };
   
+      console.log('incomming data', data)
       const updatedNotes = state.notes.map((note, i) =>
         i === index
           ? {
               ...note,
-              title: newTitle || note.title,
-              content: newContent || note.content,
-              state: newState || note.state,
-              date: newDate || note.date,
-              important: newImportant !== undefined ? newImportant : note.important,
+              title: data.title || note.title,
+              note: data.note || note.note,
+              state: data.state || note.state,
+              date: data.date || note.date,
+              important: data.important !== undefined ? data.important  : note.important,
             }
           : note
       );
+      console.log('updated notes ', updatedNotes )
 
       localStorage.setItem("notes", JSON.stringify(updatedNotes));
-      return { notes: updatedNotes };
+      return { 
+        notes: updatedNotes,
+        searchedNotes: updatedNotes,
+       };
     }),
   
   deleteNote: (index) =>
     set((state) => {
       const updatedNotes = state.notes.filter((_, i) => i !== index);
       localStorage.setItem('notes', JSON.stringify(updatedNotes));
-      return { notes: updatedNotes };
+      return {
+        notes: updatedNotes,
+        searchedNotes: updatedNotes,
+       };
     }),
   // Set user data and token, and persist them in localStorage
   setUser: (user, token) => {
@@ -76,16 +88,19 @@ const useNoteStore = create((set, get) => ({
       localStorage.setItem('notes', JSON.stringify(updatedNotes));
       console.log('starred note', note)
 
-      return { notes: updatedNotes };
+      return {
+        notes: updatedNotes,
+        searchedNotes: updatedNotes,
+       };
     });
   },
   // Search notes
   searchNotes: (query) => {
     const allNotes = get().notes || [];
     if (!query.trim()) {
-      set({ searchedNotes:allNotes } )
+      set({ notes:allNotes } )
       }
-
+console.log('all notes', allNotes)
     const updateSearchedNotes = allNotes.filter((note) => {
       const title = note.title ? note.title : '';
       const content = note.note ? note.note : '';
@@ -103,10 +118,16 @@ const useNoteStore = create((set, get) => ({
     const allNotes = get().notes || []
 
     const filteredNotes = allNotes.filter((note) => {
-      const matchesState = stateFilter ? note.state === stateFilter : true;
-      const matchesStarred = isStarredFilter !== undefined ? note.isStarred === isStarredFilter : true;
-      return matchesState && matchesStarred;
+      if (typeof stateFilter === "boolean") {
+        // If stateFilter is a boolean, filter based on isStarred
+        return note.isStarred === stateFilter;
+      } else if (typeof stateFilter === "string") {
+        // If stateFilter is a string, filter based on note.state
+        return note.state === stateFilter;
+      }
+      return true; // If stateFilter is undefined or another type, return all notes
     });
+    
     console.log('store filter result', filteredNotes)
 
     set({ searchedNotes: filteredNotes });

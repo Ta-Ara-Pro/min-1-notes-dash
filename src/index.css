@@ -24,4 +24,5 @@ body,
 #root,
 .app {
   font-family: 'Sahel', sans-serif;
+  height: 100%;
 }

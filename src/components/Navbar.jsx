@@ -23,9 +23,9 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
     const [searchQuery, setSearchQuery] = useState('')
     // Close Filter Menu ==============
     // =================================
-    const handleMenuClose = (e) => {
-        filterNotes(e.target.value)
-        setSearchQuery(e.target.value)
+    const handleMenuClose = (value) => {
+        filterNotes(value)
+        setSearchQuery(value)
 
         setAnchorEl(null);
     };
@@ -58,7 +58,8 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
                 boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
                 borderRadius: '15px',
                 marginBottom: '2rem',
-                gap: !isMobileScreen && '16px',
+                gap: isMobileScreen ? '0px' : '16px',
+
                 direction: 'rtl'
             }}
         >
@@ -91,7 +92,7 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
                     flexDirection: 'row',
                     justifyContent: 'end',
                     gap: '5px',
-                    marginTop: isMobileScreen && '10px'
+                    marginTop: isMobileScreen ? '10px' : '0px'
                 }}
             >
                 {/* Filter Button */}
@@ -113,10 +114,15 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
                         transformOrigin={{ vertical: "top", horizontal: "right" }}
                         sx={{ direction: "rtl" }}
                     >
-                        <MenuItem onClick={() => handleMenuClose("فعال")}>فعال</MenuItem>
+                        {/* <MenuItem onClick={() => handleMenuClose("فعال")}>فعال</MenuItem>
                         <MenuItem onClick={() => handleMenuClose("غیر فعال")}>غیر فعال</MenuItem>
                         <MenuItem onClick={() => handleMenuClose("آرشیو شده")}>آرشیو شده</MenuItem>
-                        <MenuItem onClick={() => handleMenuClose("منتخب")}> منتخب</MenuItem>
+                        <MenuItem onClick={() => handleMenuClose("منتخب")}> منتخب</MenuItem> */}
+                        <MenuItem onClick={() => handleMenuClose("فعال")}>فعال</MenuItem>
+                        <MenuItem onClick={() => handleMenuClose("غیرفعال")}>غیر فعال</MenuItem>
+                        <MenuItem onClick={() => handleMenuClose("آرشیو شده")}>آرشیو شده</MenuItem>
+                        <MenuItem onClick={() => handleMenuClose(true)}>منتخب</MenuItem>
+
                     </Menu>
                 </Box>
 

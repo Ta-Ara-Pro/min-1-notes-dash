@@ -22,14 +22,9 @@ const App = () => {
             {/* Public route for login */}
             <Route path="/login" element={isAuth ? <Navigate to="/" replace /> : <Login />} />
 
-            <Route
-              path="/"
-              element={
-                <PrivateRoute>
-                  <Dashboard />
-                </PrivateRoute>
-              }
-            />
+            <Route element={ <PrivateRoute />} >
+            <Route path="/" element={ <Dashboard />}/>
+            </Route>
 
             {/* Fallback route for undefined paths */}
             <Route path="*" element={<Navigate to={isAuth ? "/" : "/login"} replace />} />

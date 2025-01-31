@@ -6,29 +6,21 @@ import useNoteStore from "../store";
 import React, { useEffect, useState } from 'react';
 import {
   Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
   IconButton,
-  Typography,
-  Tooltip,
   useMediaQuery,
-  Divider,
   useTheme,
 } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { useLocation } from "react-router-dom";
 import Profile from "../components/Profile";
 import NoteList from "../components/NoteList";
-import NoteGrid from '../components/NoteGrid'
+import ViewNote from "../components/ViewNote";
+import EditNote from "../components/EditNote";
 
 const Dashboard = () => {
   const location = useLocation()
   const [tab, setTab] = useState('')
-  const { notes, addNote, deleteNote, mode, searchedNotes } = useNoteStore();
+  const { notes, user, addNote, deleteNote, mode, searchedNotes } = useNoteStore();
   const { palette } = useTheme()
   const [isOpen, setIsOpen] = useState(true);
   const [viewMode, setViewMode] = useState('row')
@@ -40,14 +32,16 @@ const Dashboard = () => {
   // =======================================
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(location.search)  //location.search is the query string part of the URL 
+    const urlParams = new URLSearchParams(location.search)
     const tabFromUrl = urlParams.get('tab')
     if (tabFromUrl) {
       setTab(tabFromUrl)
     }
+    console.log('tab', tab)
   }, [location.search]);
 
-
+  // DRAWER FUCNTIONS ==============
+  // ===============================
   const toggleDrawer = () => {
     setIsOpen(!isOpen);
   };
@@ -61,10 +55,6 @@ const Dashboard = () => {
     setViewMode((prev) => prev === 'row' ? 'grid' : 'row')
   }
 
-  // USER INFO ===================
-  // =============================
-  const { user } = useNoteStore()
-  console.log('user', user)
 
   // UPDATE SEARCH QUERY ===========
   // ===============================
@@ -102,7 +92,6 @@ const Dashboard = () => {
       )}
       <Box
         sx={{
-          // display:'flex', justifyItems:"center",alignItems:'center',
           overflowX: 'hidden',
           minHeight: '100vh',
           minWidth: '200px',
@@ -113,26 +102,38 @@ const Dashboard = () => {
           paddingX: isNonMobileScreens ? '3rem' : isMobileScreen ? '1rem' : '2rem',
           paddingY: isNonMobileScreens ? '2rem' : '1rem',
           background: palette.primary.main,
-          marginTop: isSmallScreen && '2rem'
+          marginTop: isSmallScreen ? '2rem' : '0'
+
         }}
       >
-        {tab === 'notes' && <Navbar user={user} toggleViewMode={toggleViewMode} viewMode={viewMode} />}
         {/* Sidebar Drawer */}
-        <Sidebar isOpen={isOpen} toggleDrawer={toggleDrawer} shrinkDrawer={shrinkDrawer} isSmallScreen={isSmallScreen} mode={mode} />
+        <Sidebar
+          isOpen={isOpen}
+          toggleDrawer={toggleDrawer} shrinkDrawer={shrinkDrawer}
+          isSmallScreen={isSmallScreen} mode={mode}
+        />
+        {tab === 'notes' && 
+        <Navbar user={user} toggleViewMode={toggleViewMode} viewMode={viewMode} />
+        }
 
         {/* Main Content */}
         <Box flexBasis={isNonMobileScreens ? '52%' : '62%'}>
           {tab === 'create' && <AddNoteForm addNote={addNote} />}
           {tab === 'notes' &&
             <NoteList
-              notes={searchedNotes}
+              notes={notes}
               deleteNote={deleteNote}
               isMobileScreen={isMobileScreen}
-              isSmallScreen={isSmallScreen }
+              isSmallScreen={isSmallScreen}
               viewMode={viewMode}
+              tab={tab}
+              searchedNotes={searchedNotes}
             />
           }
           {tab === 'profile' && <Profile user={user} isNonMobileScreens={isNonMobileScreens} />}
+          {tab && tab.startsWith("view/") && <ViewNote />}
+          {tab && tab.startsWith("edit/") && <EditNote />}
+
         </Box>
       </Box>
     </Box>
@@ -140,3 +141,6 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+

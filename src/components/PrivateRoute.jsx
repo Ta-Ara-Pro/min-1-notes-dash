@@ -1,11 +1,11 @@
 import React from 'react'
 import useNoteStore from '../store'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 
-const PrivateRoute = ({ children }) => {
+const PrivateRoute = () => {
     const {user, token} = useNoteStore()
     const isAuth = Boolean(user && token)
-  return  isAuth ? children : <Navigate to="/login" replace />
+  return  isAuth ? <Outlet /> : <Navigate to="/login" replace />
 
 }
 

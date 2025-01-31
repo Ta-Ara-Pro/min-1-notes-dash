@@ -8,7 +8,9 @@ export const lightTheme = createTheme({
       light: "rgba(238, 238, 238, 0.9)",
     },
     Button:{
-      red: "rgb(251, 226, 243)"
+      red: "rgb(251, 226, 243)",
+      blue: "rgb(196, 182, 240)",
+      blueBgColor: "rgb(95, 52, 236)",
     },
     background: {
       default: " rgb(248, 243, 236)",
@@ -33,16 +35,20 @@ export const darkTheme = createTheme({
     },
     Button:{
       red: "rgb(255,202,202)",
-      redBgColor: "rgb(136, 1, 1)"
+      redBgColor: "rgb(136, 1, 1)",
+      blue: "rgb(196, 182, 240)",
+      blueBgColor: "rgb(95, 52, 236)",
     },
     background: {
       default: "rgb(65, 63, 63)",
       paper: "rgb(87, 81, 81)",
     },
     text: {
+      main:  "rgb(238, 234, 234)",
+      primary: "rgb(233, 227, 227)",
+      light: "rgb(196, 196, 196)",
       dark:"rgb(107, 107, 107)",
-      primary: "rgb(209, 193, 193)",
-      light: "rgb(196, 196, 196)"
+      
     },
   },
   typography: {

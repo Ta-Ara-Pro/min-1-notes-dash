@@ -235,8 +235,10 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-multi-date-picker"
 import persian from 'react-date-object/calendars/persian'
 import persian_fa from 'react-date-object/locales/persian_fa'
+import { useNavigate } from "react-router-dom";
 
 const AddNoteForm = ({ addNote }) => {
+  const navigate = useNavigate()
   const isMobileScreen = useMediaQuery("(max-width: 629px)")
   const isSmallScreen = useMediaQuery("(max-width: 460px)")
   const { handleSubmit, reset, control, watch } = useForm();
@@ -245,9 +247,11 @@ const AddNoteForm = ({ addNote }) => {
   const selectedState = watch("state");
 
   const onSubmit = (data) => {
-    console.log(data); 
+    console.log(data);
     addNote(data);
     reset();
+    navigate('/?tab=notes')
+
   };
 
   return (
@@ -293,10 +297,10 @@ const AddNoteForm = ({ addNote }) => {
                 fullWidth
                 slotProps={{
                   formHelperText: {
-                    style: { textAlign: "right" }, 
+                    style: { textAlign: "right" },
                   },
                 }}
-               
+
               />
             </Tooltip>
           )}
@@ -326,10 +330,10 @@ const AddNoteForm = ({ addNote }) => {
                 fullWidth
                 slotProps={{
                   formHelperText: {
-                    style: { textAlign: "right" }, // Apply your style here
+                    style: { textAlign: "right" }, 
                   },
                 }}
-               
+
               />
             </Tooltip>
           )}
@@ -347,30 +351,30 @@ const AddNoteForm = ({ addNote }) => {
       >
         {/* State Select */}
         <Box width="100%">
-  <Typography variant="body1" component="label" htmlFor="state">
-    وضعیت
-  </Typography>
-  <Controller
-    name="state"
-    control={control}
-    defaultValue=""
-    rules={{ required: "وضعیت الزامی است" }}
-    render={({ field, fieldState: { error } }) => (
-      <FormControl 
-        variant="outlined" 
-        fullWidth 
-        error={!!error}
-      >
-        <Select {...field} id="state">
-          <MenuItem value="فعال">فعال</MenuItem>
-          <MenuItem value="غیرفعال">غیرفعال</MenuItem>
-          <MenuItem value="آرشیو شده">آرشیو شده</MenuItem>
-        </Select>
-        {error && <FormHelperText style={{ textAlign: "right" }}>{error.message}</FormHelperText>}
-      </FormControl>
-    )}
-  />
-</Box>
+          <Typography variant="body1" component="label" htmlFor="state">
+            وضعیت
+          </Typography>
+          <Controller
+            name="state"
+            control={control}
+            defaultValue=""
+            rules={{ required: "وضعیت الزامی است" }}
+            render={({ field, fieldState: { error } }) => (
+              <FormControl
+                variant="outlined"
+                fullWidth
+                error={!!error}
+              >
+                <Select {...field} id="state">
+                  <MenuItem value="فعال">فعال</MenuItem>
+                  <MenuItem value="غیرفعال">غیرفعال</MenuItem>
+                  <MenuItem value="آرشیو شده">آرشیو شده</MenuItem>
+                </Select>
+                {error && <FormHelperText style={{ textAlign: "right" }}>{error.message}</FormHelperText>}
+              </FormControl>
+            )}
+          />
+        </Box>
 
 
         {/* Conditional Field: Important */}
@@ -391,7 +395,7 @@ const AddNoteForm = ({ addNote }) => {
         {/* Date Picker */}
         <Box width="100%">
           <Typography variant="body1" component="label" htmlFor="datepicker">
-            تاریخ  
+            تاریخ
           </Typography>
           <Controller
             name="date"
@@ -413,20 +417,20 @@ const AddNoteForm = ({ addNote }) => {
                       padding: '1rem',
                       gap: '10px',
                     }}
-           
+
                   >
                     {!isSmallScreen && <CalendarMonthIcon sx={{ cursor: 'pointer' }} />}
                     <DatePicker
                       id="datepicker"
                       {...field}
-                      calendar={persian} 
+                      calendar={persian}
                       locale={persian_fa}
                       calendarPosition="bottom-right"
                       style={{
-                        width: isMobileScreen ? '80px' : '100%', transition:'width 0.3s ease-in-out',
+                        width: isMobileScreen ? '80px' : '100%', transition: 'width 0.3s ease-in-out',
                         padding: '18px', border: 'none',
-                         background:  "rgba(249, 249, 249, 0.26)" 
-                        }}
+                        background: "rgba(249, 249, 249, 0.26)"
+                      }}
                       value={field.value}
                       onChange={(value) => field.onChange(value)}
                     />

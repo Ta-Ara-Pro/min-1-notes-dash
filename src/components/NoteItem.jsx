@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Table,
@@ -16,11 +16,23 @@ import {
   DialogTitle,
   DialogActions,
   useTheme,
+  IconButton,
 } from "@mui/material";
+import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
+import StarIcon from '@mui/icons-material/Star';
+import { useNavigate } from "react-router-dom";
 
-const NoteItem = ({ note, onDelete, isSmallScreen }) => {
+const NoteItem = ({ index, note, onDelete, onStar, onClick, isSmallScreen }) => {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-   const { palette } = useTheme();
+  const [isStarred, setIsStarred] = useState(note.isStarred || false);
+  const navigate = useNavigate()
+  const { palette } = useTheme();
+
+  useEffect(() => {
+    setIsStarred(note.isStarred);
+  }, [note.isStarred]);
+
+
   return (
     <Card
       sx={{
@@ -36,41 +48,28 @@ const NoteItem = ({ note, onDelete, isSmallScreen }) => {
     >
       <CardContent
         sx={{
-          // background:
-          //   note.state === 'archived'
-          //     ? 'rgb(140, 195, 240)'
-          //     : note.state === 'active'
-          //       ? 'rgb(196,255,203)'
-          //       : note.state === 'inactive'
-          //         ? 'rgb(255,202,202)'
-          //         : 'transparent',
+
           borderRadius: '12px',
-          // border: 
-          // note.state === 'archived'
-          // ? '4px solid rgb(140, 195, 240)'
-          // : note.state === 'active'
-          // ? '4px solid rgb(140, 240, 148)'
-          // : note.state === 'inactive'
-          // ? '4px solid rgb(240, 140, 140)'
-          // : '4px solid transparent', 
+
 
         }}
       >
 
         <TableContainer component={Paper} sx={{
           borderRadius: '25px',
-          border: 
-          note.state === 'archived'
-          ? '2px solid rgb(192, 173, 255)'
-          : note.state === 'active'
-          ? '2px solid rgb(174, 230, 214)'
-          : note.state === 'inactive'
-          ? '2px solid rgb(240, 140, 140)'
-          : '2px solid transparent', 
-        }}>
+          border:
+            note.state === 'آرشیو شده'
+              ? '2px solid rgb(192, 173, 255)'
+              : note.state === 'فعال'
+                ? '2px solid rgb(174, 230, 214)'
+                : note.state === 'غیرفعال'
+                  ? '2px solid rgb(240, 140, 140)'
+                  : '2px solid transparent',
+        }}
+        >
           <Table>
             <TableHead>
-              <TableRow >
+              <TableRow ><TableCell align="right" ></TableCell>
                 <TableCell align="right">عنوان</TableCell>
                 <TableCell align="right">یادداشت</TableCell>
                 <TableCell align="right">وضعیت</TableCell>
@@ -81,12 +80,28 @@ const NoteItem = ({ note, onDelete, isSmallScreen }) => {
                 }
 
                 <TableCell align="right">تاریخ اعتبار</TableCell>
-                <TableCell align="right">عملیات</TableCell>
+                <TableCell align="right" >عملیات</TableCell>
+
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
-                <TableCell align="right">{note.title}</TableCell>
+              <TableRow >
+                <TableCell align="right" >
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    fontSize={isSmallScreen ? "0.65rem" : "0.775rem"}
+                    // backgroundColor={palette.background.paper}
+                    backgroundColor={palette.text.light}
+                    borderRadius='50px'
+                    display='inline-flex'
+                  >
+                    <IconButton onClick={onStar} >
+                      {isStarred ? <StarIcon sx={{ fontSize: 24 }} /> : <StarOutlineOutlinedIcon sx={{ fontSize: 24 }} />}
+                    </IconButton>
+                  </Typography>
+                </TableCell>
+                <TableCell align="right" >{note.title}</TableCell>
                 <TableCell align="right" sx={{
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -97,26 +112,26 @@ const NoteItem = ({ note, onDelete, isSmallScreen }) => {
                 </TableCell>
                 <TableCell align="right">
                   <Typography
-                              variant={isSmallScreen ? "body1" : "h6"}
-                              sx={{
-                                display: "inline-block", 
-                                width: "auto",
-                                padding: "8px 10px",
-                                color:'grayText',
-                                borderRadius: "12px",
-                                fontSize: isSmallScreen ? "0.65rem" : "0.9rem",
-                                background:
-                                note.state === 'archived'
-                                  ? 'rgb(226, 219, 250)'
-                                  : note.state === 'active'
-                                    ? 'rgb(212, 247, 237)'
-                                    : note.state === 'inactive'
-                                      ? 'rgb(255,202,202)'
-                                      : 'transparent',
-                              }}
-                            >
-                              {note.state}
-                            </Typography></TableCell>
+                    variant={isSmallScreen ? "body1" : "h6"}
+                    sx={{
+                      display: "inline-block",
+                      width: "auto",
+                      padding: "8px 10px",
+                      color: 'grayText',
+                      borderRadius: "12px",
+                      fontSize: isSmallScreen ? "0.65rem" : "0.9rem",
+                      background:
+                        note.state === 'آرشیو شده'
+                          ? 'rgb(226, 219, 250)'
+                          : note.state === 'فعال'
+                            ? 'rgb(212, 247, 237)'
+                            : note.state === 'غیرفعال'
+                              ? 'rgb(255,202,202)'
+                              : 'transparent',
+                    }}
+                  >
+                    {note.state}
+                  </Typography></TableCell>
                 {
                   note.important ?
                     <TableCell align="right">مهم</TableCell>
@@ -127,18 +142,18 @@ const NoteItem = ({ note, onDelete, isSmallScreen }) => {
                   month: "long",
                   day: "numeric",
                 })}</TableCell>
-                <TableCell align="right" sx={{justifyContent:'space-between', background: 'blue'}}>
+                <TableCell align="right" sx={{ display: 'flex', justifyContent: 'start', gap: 2 }}>
                   <Button
                     variant="text"
                     color="error"
                     onClick={() => setOpenDeleteDialog(true)}
                     sx={{
-                      display: "inline-block", 
+                      display: "inline-block",
                       width: "auto",
                       padding: "8px 10px",
                       color: palette.Button.redBgColor,
                       borderRadius: "12px",
-                      background:'rgb(250, 151, 151)',
+                      background: 'rgb(250, 151, 151)',
                       fontSize: isSmallScreen ? "0.65rem" : "0.9rem",
                       "&:hover": { textDecoration: "underline" },
                     }}
@@ -148,19 +163,36 @@ const NoteItem = ({ note, onDelete, isSmallScreen }) => {
                   <Button
                     variant="text"
                     color="error"
-                    onClick={() => setOpenDeleteDialog(true)}
+                    onClick={() => navigate(`/edit-note/${index}`)}
                     sx={{
-                      display: "inline-block", 
+                      display: "inline-block",
                       width: "auto",
                       padding: "8px 10px",
-                      color: palette.Button.redBgColor,
+                      color: palette.Button.blueBgColor,
                       borderRadius: "12px",
-                      background:'rgb(250, 151, 151)',
+                      background: palette.Button.blue,
                       fontSize: isSmallScreen ? "0.65rem" : "0.9rem",
                       "&:hover": { textDecoration: "underline" },
                     }}
                   >
                     اصلاح
+                  </Button>
+                  <Button
+                    variant="text"
+                    color="error"
+                    onClick={onClick}
+                    sx={{
+                      display: "inline-block",
+                      width: "auto",
+                      padding: "8px 10px",
+                      color: palette.Button.blueBgColor,
+                      borderRadius: "12px",
+                      background: 'rgb(211, 202, 238)',
+                      fontSize: isSmallScreen ? "0.65rem" : "0.9rem",
+                      "&:hover": { textDecoration: "underline" },
+                    }}
+                  >
+                    مشاهده
                   </Button>
                 </TableCell>
               </TableRow>
