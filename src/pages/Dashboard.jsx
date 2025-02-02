@@ -131,7 +131,7 @@ const Dashboard = () => {
             />
           }
           {tab === 'profile' && <Profile user={user} isNonMobileScreens={isNonMobileScreens} />}
-          {tab && tab.startsWith("view/") && <ViewNote />}
+          {tab && tab.startsWith("view/") && <ViewNote isNonMobileScreens={isNonMobileScreens}/>}
           {tab && tab.startsWith("edit/") && <EditNote />}
 
         </Box>
