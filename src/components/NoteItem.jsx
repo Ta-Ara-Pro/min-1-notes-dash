@@ -163,7 +163,7 @@ const NoteItem = ({ index, note, onDelete, onStar, onClick, isSmallScreen }) => 
                   <Button
                     variant="text"
                     color="error"
-                    onClick={() => navigate(`/edit-note/${index}`)}
+                    onClick={() => navigate(`?tab=edit/${index}`)}
                     sx={{
                       display: "inline-block",
                       width: "auto",

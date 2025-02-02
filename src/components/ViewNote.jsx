@@ -24,19 +24,19 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useNoteStore from "../store";
 
 const ViewNote = () => {
-    // GET QUERY FROM URL PATH ===============
-    // =======================================
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const tab = searchParams.get("tab"); 
-    const [index, setIndex] = useState(null);
-    
-    useEffect(() => {
-        if (tab && tab.startsWith("view/")) {
-            const id = parseInt(tab.split("view/")[1], 10); 
-            setIndex(Number(id))
-        }
-    }, [tab]);
+  // GET QUERY FROM URL PATH ===============
+  // =======================================
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const tab = searchParams.get("tab");
+  const [index, setIndex] = useState(null);
+
+  useEffect(() => {
+    if (tab && tab.startsWith("view/")) {
+      const id = parseInt(tab.split("view/")[1], 10);
+      setIndex(Number(id))
+    }
+  }, [tab]);
 
   const { notes, editNote } = useNoteStore();
   const note = notes.find((_, i) => i === index);
@@ -80,203 +80,209 @@ const ViewNote = () => {
     editNote(index, data);
     navigate('/?tab=notes')
   };
-  
+
 
   if (!note) return <Typography align="right">یادداشت پیدا نشد</Typography>;
 
   return (
     <Box
-    sx={{
-      display: "flex",
-      flexDirection: "column",
-      gap: 3,
-      alignItems: "center",
-      padding: isMobileScreen ? '1rem 1rem' : "1rem 5rem",
-      border: "1px solid #ccc",
-      borderRadius: "8px",
-      backgroundColor: palette.primary.main,
-      direction: "rtl",
-      maxHeight:'100vh',
-      height: '100vh',
-    }}
-  >
-    
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      style={{
+      sx={{
         display: "flex",
         flexDirection: "column",
-        gap: "16px",
+        gap: 3,
         alignItems: "center",
-        padding: "1.5rem",
+        padding: isMobileScreen ? '1rem 1rem' : "1rem 5rem",
         border: "1px solid #ccc",
         borderRadius: "8px",
-        backgroundColor: palette.primary.light,
+        backgroundColor: palette.primary.main,
         direction: "rtl",
-        padding: isMobileScreen ? '1rem 1rem' : '3rem 3rem',
-        width:'100%',
-        marginTop:'1rem',
-        color: palette.text.main,
-      marginY:'0.5rem'
-
+        maxHeight: '100vh',
+        height: '100vh',
       }}
     >
-      <Typography variant="h5" align="center" gutterBottom>
-         یادداشت
-      </Typography>
 
-      {/* Title Field */}
-      <Box width="100%">
-        <Typography variant="body1" component="label" htmlFor="title">
-          عنوان
-        </Typography>
-        <Controller
-          name="title"
-          control={control}
-          rules={{ required: "عنوان الزامی است" }}
-          render={({ field, fieldState: { error } }) => (
-            <Tooltip title="یک عنوان برای یادداشت خود وارد کنید" arrow>
-              <TextField
-                {...field}
-                id="title"
-                variant="outlined"
-                error={!!error}
-                helperText={error ? error.message : null}
-                fullWidth
-                slotProps={{ formHelperText: { style: { textAlign: "right" } } }}
-              />
-            </Tooltip>
-          )}
-        />
-      </Box>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+          alignItems: "center",
+          padding: "1.5rem",
+          border: "1px solid #ccc",
+          borderRadius: "8px",
+          backgroundColor: palette.primary.light,
+          direction: "rtl",
+          padding: isMobileScreen ? '1rem 1rem' : '3rem 3rem',
+          width: '100%',
+          marginTop: '1rem',
+          color: palette.text.main,
+          marginY: '0.5rem'
 
-      {/* Note Field */}
-      <Box width="100%">
-        <Typography variant="body1" component="label" htmlFor="note">
+        }}
+      >
+        <Typography variant="h5" align="center" gutterBottom>
           یادداشت
         </Typography>
-        <Controller
-          name="note"
-          control={control}
-          rules={{ required: "یادداشت الزامی است" }}
-          render={({ field, fieldState: { error } }) => (
-            <Tooltip title="محتوای یادداشت را وارد کنید" arrow>
-              <TextField
-                {...field}
-                id="note"
-                multiline
-                rows={4}
-                variant="outlined"
-                error={!!error}
-                helperText={error ? error.message : null}
-                fullWidth
-                slotProps={{ formHelperText: { style: { textAlign: "right" } } }}
+
+        {/* Title Field */}
+        <Box width="100%">
+          <Typography variant="body1" component="label" htmlFor="title">
+            عنوان
+          </Typography>
+          <Controller
+            name="title"
+            control={control}
+            rules={{ required: "عنوان الزامی است" }}
+            render={({ field, fieldState: { error } }) => (
+              <Tooltip title="یک عنوان برای یادداشت خود وارد کنید" arrow>
+                <TextField
+                  {...field}
+                  id="title"
+                  variant="outlined"
+                  error={!!error}
+                  helperText={error ? error.message : null}
+                  fullWidth
+                  slotProps={{ formHelperText: { style: { textAlign: "right" } } }}
+                />
+              </Tooltip>
+            )}
+          />
+        </Box>
+
+        {/* Note Field */}
+        <Box width="100%">
+          <Typography variant="body1" component="label" htmlFor="note">
+            یادداشت
+          </Typography>
+          <Controller
+            name="note"
+            control={control}
+            rules={{ required: "یادداشت الزامی است" }}
+            render={({ field, fieldState: { error } }) => (
+              <Tooltip title="محتوای یادداشت را وارد کنید" arrow>
+                <TextField
+                  {...field}
+                  id="note"
+                  multiline
+                  rows={4}
+                  variant="outlined"
+                  error={!!error}
+                  helperText={error ? error.message : null}
+                  fullWidth
+                  slotProps={{ formHelperText: { style: { textAlign: "right" } } }}
+                />
+              </Tooltip>
+            )}
+          />
+        </Box>
+
+        {/* State Select */}
+        <Box width="100%">
+          <Typography variant="body1" component="label" htmlFor="state">
+            وضعیت
+          </Typography>
+          <Controller
+            name="state"
+            control={control}
+            rules={{ required: "وضعیت الزامی است" }}
+            render={({ field, fieldState: { error } }) => (
+              <FormControl variant="outlined" fullWidth error={!!error}>
+                <Select {...field} id="state">
+                  <MenuItem value="فعال">فعال</MenuItem>
+                  <MenuItem value="غیرفعال">غیرفعال</MenuItem>
+                  <MenuItem value="آرشیو شده">آرشیو شده</MenuItem>
+                </Select>
+                {error && (
+                  <FormHelperText style={{ textAlign: "right" }}>
+                    {error.message}
+                  </FormHelperText>
+                )}
+              </FormControl>
+            )}
+          />
+        </Box>
+
+        {/* Conditional Field: Important */}
+        {selectedState === "آرشیو شده" && (
+          <Controller
+            name="important"
+            control={control}
+            render={({ field }) => (
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.target.checked)}
+                    color="primary"
+                  />
+                }
+                label="آیا این یادداشت مهم است؟"
               />
-            </Tooltip>
-          )}
-        />
-      </Box>
+            )}
+          />
+        )}
 
-      {/* State Select */}
-      <Box width="100%">
-        <Typography variant="body1" component="label" htmlFor="state">
-          وضعیت
-        </Typography>
-        <Controller
-          name="state"
-          control={control}
-          rules={{ required: "وضعیت الزامی است" }}
-          render={({ field, fieldState: { error } }) => (
-            <FormControl variant="outlined" fullWidth error={!!error}>
-              <Select {...field} id="state">
-                <MenuItem value="فعال">فعال</MenuItem>
-                <MenuItem value="غیرفعال">غیرفعال</MenuItem>
-                <MenuItem value="آرشیو شده">آرشیو شده</MenuItem>
-              </Select>
-              {error && (
-                <FormHelperText style={{ textAlign: "right" }}>
-                  {error.message}
-                </FormHelperText>
-              )}
-            </FormControl>
-          )}
-        />
-      </Box>
-
-      {/* Conditional Field: Important */}
-      {selectedState === "آرشیو شده" && (
-        <Controller
-          name="important"
-          control={control}
-          render={({ field }) => (
-            <FormControlLabel
-              control={<Switch {...field} color="primary" />}
-              label="آیا این یادداشت مهم است؟"
-            />
-          )}
-        />
-      )}
-
-      {/* Date Picker */}
-      <Box width="100%">
-        <Typography variant="body1" component="label" htmlFor="datepicker">
-          تاریخ
-        </Typography>
-        <Controller
-          name="date"
-          control={control}
-          rules={{ required: "تاریخ پایان اعتبار را وارد کنید" }}
-          render={({ field, fieldState: { error } }) => (
-            <Tooltip title="تاریخ پایان اعتبار یادداشت را وارد کنید" arrow>
-              <div
-                style={{
-                  direction: "rtl",
-                  cursor: "pointer",
-                  marginBottom: "1.2rem",
-                }}
-              >
-                <label
-                  htmlFor="datepicker"
+        {/* Date Picker */}
+        <Box width="100%">
+          <Typography variant="body1" component="label" htmlFor="datepicker">
+            تاریخ
+          </Typography>
+          <Controller
+            name="date"
+            control={control}
+            rules={{ required: "تاریخ پایان اعتبار را وارد کنید" }}
+            render={({ field, fieldState: { error } }) => (
+              <Tooltip title="تاریخ پایان اعتبار یادداشت را وارد کنید" arrow>
+                <div
                   style={{
-                    border: `1px solid ${palette.primary.outline}`,
-                    borderRadius: "5px",
+                    direction: "rtl",
                     cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "start",
-                    padding: "1rem",
-                    gap: "10px",
+                    marginBottom: "1.2rem",
                   }}
                 >
-                  {!isSmallScreen && (
-                    <CalendarMonthIcon sx={{ cursor: "pointer" }} />
-                  )}
-                  <DatePicker
-                    id="datepicker"
-                    {...field}
-                    calendar={persian}
-                    locale={persian_fa}
-                    calendarPosition="bottom-right"
+                  <label
+                    htmlFor="datepicker"
                     style={{
-                      width: isMobileScreen ? "120px" : "100%",
-                      transition: "width 0.3s ease-in-out",
-                      padding: "18px",
-                      border: "none",
-                      background: "rgba(233, 232, 232, 0.26)",
+                      border: `1px solid ${palette.primary.outline}`,
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "start",
+                      padding: "1rem",
+                      gap: "10px",
                     }}
-                    value={field.value}
-                    onChange={(value) => field.onChange(value)}
-                  />
-                </label>
-                {error && <span style={{ color: "red" }}>{error.message}</span>}
-              </div>
-            </Tooltip>
-          )}
-        />
-      </Box>
+                  >
+                    {!isSmallScreen && (
+                      <CalendarMonthIcon sx={{ cursor: "pointer" }} />
+                    )}
+                    <DatePicker
+                      id="datepicker"
+                      {...field}
+                      calendar={persian}
+                      locale={persian_fa}
+                      calendarPosition="bottom-right"
+                      style={{
+                        width: isMobileScreen ? "120px" : "100%",
+                        transition: "width 0.3s ease-in-out",
+                        padding: "18px",
+                        border: "none",
+                        background: "rgba(233, 232, 232, 0.26)",
+                      }}
+                      value={field.value}
+                      onChange={(value) => field.onChange(value)}
+                    />
+                  </label>
+                  {error && <span style={{ color: "red" }}>{error.message}</span>}
+                </div>
+              </Tooltip>
+            )}
+          />
+        </Box>
 
-      
-    </form>
+
+      </form>
     </Box>
   );
 };

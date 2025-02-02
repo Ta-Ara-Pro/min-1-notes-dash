@@ -41,7 +41,6 @@ const EditNote = () => {
             const id = parseInt(tab.split("edit/")[1], 10);
             setIndex(Number(id))
         }
-        console.log('tab', tab)
     }, [location.search]);
 
     // FIND THE NOTE FROM LOCAL STORAGE ======
@@ -64,7 +63,7 @@ const EditNote = () => {
             important: note?.important || false,
             date: note?.date || new Date().toLocaleDateString("fa-IR"),
         },
-    });
+    }); 
 
     const selectedState = watch("state");
 
@@ -216,7 +215,13 @@ const EditNote = () => {
                         control={control}
                         render={({ field }) => (
                             <FormControlLabel
-                                control={<Switch {...field} color="primary" />}
+                                control={
+                                    <Switch
+                                        checked={field.value}
+                                        onChange={(e) => field.onChange(e.target.checked)}
+                                        color="primary"
+                                    />
+                                }
                                 label="آیا این یادداشت مهم است؟"
                             />
                         )}

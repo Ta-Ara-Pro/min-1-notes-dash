@@ -114,7 +114,7 @@ console.log('all notes', allNotes)
 
   },
   // Filter notes
-   filterNotes: ( stateFilter, isStarredFilter ) => {
+   filterNotes: ( stateFilter ) => {
     const allNotes = get().notes || []
 
     const filteredNotes = allNotes.filter((note) => {
