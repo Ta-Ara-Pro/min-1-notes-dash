@@ -15,6 +15,7 @@ export const lightTheme = createTheme({
     background: {
       default: " rgb(248, 243, 236)",
       paper: "rgb(248, 247, 247)",
+      textfield: " #ccc",
     },
     text: {
       primary: "rgb(51, 51, 51)",
@@ -42,6 +43,7 @@ export const darkTheme = createTheme({
     background: {
       default: "rgb(65, 63, 63)",
       paper: "rgb(87, 81, 81)",
+      textfield: " rgb(109, 109, 109)",
     },
     text: {
       main:  "rgb(238, 234, 234)",

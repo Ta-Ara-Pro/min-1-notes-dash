@@ -17,7 +17,7 @@ const ViewNote = ({isNonMobileScreens}) => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); //600px
   const tab = searchParams.get("tab");
   const [index, setIndex] = useState(null);
 
@@ -101,14 +101,16 @@ const ViewNote = ({isNonMobileScreens}) => {
 
         <Typography
           variant="body2"
-          sx={{ padding: "2rem", backgroundColor: " #ddd", borderRadius: "5px", width: '80%' }}
+          sx={{ padding: isSmallScreen ? "1rem" : "2rem",
+             backgroundColor: theme.palette.background.textfield, 
+             borderRadius: "5px", width: isSmallScreen ? '90%' : '80%',  lineHeight: "2", }}
         >
           {note.note}
         </Typography>
 
         <Divider sx={{ width: '50%' }} />
 
-        <Box sx={{ display: 'flex',gap:'5px' }}>
+        <Box sx={{ display: 'flex',gap:'5px', my:'1rem' }}>
             <Typography
               variant={isSmallScreen ? "body1" : "h6"}
               sx={{
