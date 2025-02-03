@@ -22,6 +22,7 @@ import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import useNoteStore from "../store";
+import { toast } from "react-toastify";
 
 const EditNote = () => {
     const location = useLocation()
@@ -83,6 +84,7 @@ const EditNote = () => {
 
     const onSubmit = (data) => {
         editNote(index, data);
+        toast.success('فرم با موفقیت اصلاح شد')
         navigate('/?tab=notes')
     };
 

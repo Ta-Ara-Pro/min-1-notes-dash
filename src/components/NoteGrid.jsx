@@ -3,8 +3,9 @@ import { Box, Typography, Button, Card, CardContent, useMediaQuery, useTheme, Ic
 import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import StarIcon from '@mui/icons-material/Star';
+import { toast } from "react-toastify";
 
-const NoteGrid = ({ note, deleteNote, onStar, onClick, onEdit }) => {
+const NoteGrid = ({ index, note, onDelete, onStar, onClick, onEdit }) => {
   const theme = useTheme();
   const { palette } = useTheme();
   const [isStarred, setIsStarred] = useState(note.isStarred || false);
@@ -14,6 +15,14 @@ const NoteGrid = ({ note, deleteNote, onStar, onClick, onEdit }) => {
   useEffect(() => {
     setIsStarred(note.isStarred);
   }, [note.isStarred]);
+
+    // Handle delete note =============
+    // ================================
+    const handleDelete = (index) => {
+      onDelete(index)
+      setOpenDeleteDialog(false)
+      toast.success('فرم با موفقیت حذف شد')
+    }
 
   return (
     <Card
@@ -146,7 +155,6 @@ const NoteGrid = ({ note, deleteNote, onStar, onClick, onEdit }) => {
             <Button
               variant="text"
               color="white"
-              // onClick={deleteNote}
               sx={{
                 fontSize: isSmallScreen ? "0.75rem" : "0.8rem",
                 background: 'rgb(240, 113, 113)',
@@ -178,7 +186,7 @@ const NoteGrid = ({ note, deleteNote, onStar, onClick, onEdit }) => {
           <Button onClick={() => setOpenDeleteDialog(false)} >
             انصراف
           </Button>
-          <Button onClick={() => deleteNote} color="error">
+          <Button onClick={() => handleDelete(index)} color="error">
             حذف
           </Button>
 

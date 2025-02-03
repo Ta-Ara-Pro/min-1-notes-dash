@@ -21,13 +21,14 @@ import DatePicker from "react-multi-date-picker"
 import persian from 'react-date-object/calendars/persian'
 import persian_fa from 'react-date-object/locales/persian_fa'
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddNoteForm = ({ addNote }) => {
   const navigate = useNavigate()
   const isMobileScreen = useMediaQuery("(max-width: 629px)")
   const isSmallScreen = useMediaQuery("(max-width: 460px)")
   const { handleSubmit, reset, control, watch } = useForm();
-  const date = new Date().toLocaleDateString("fa-IR");console.log('date' + typeof(date))
+  const date = new Date().toLocaleDateString("fa-IR");
   const { palette } = useTheme()
   const selectedState = watch("state");
 
@@ -35,6 +36,7 @@ const AddNoteForm = ({ addNote }) => {
     console.log(data);
     addNote(data);
     reset();
+    toast.success('فرم با موفقیت افزوده شد')
     navigate('/?tab=notes')
 
   };

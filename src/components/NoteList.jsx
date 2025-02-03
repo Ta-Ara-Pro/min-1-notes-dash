@@ -21,6 +21,7 @@ const NoteList = ({ notes,searchedNotes, deleteNote, isMobileScreen, isSmallScre
     navigate(`/?tab=edit/${index}`)
   }
 
+
   return (
     <div
       style={{
@@ -45,7 +46,7 @@ const NoteList = ({ notes,searchedNotes, deleteNote, isMobileScreen, isSmallScre
         key={index}
         index={index}
         note={note}
-        onDelete={() => deleteNote(index)}
+        onDelete={deleteNote}
         onStar={() => starNote(index)}
         onClick={() => viewNote(index)}
         onEdit={() => editNote(index)}
@@ -55,7 +56,7 @@ const NoteList = ({ notes,searchedNotes, deleteNote, isMobileScreen, isSmallScre
         key={index}
         index={index}
         note={note}
-        onDelete={() => deleteNote(index)}
+        onDelete={deleteNote}
         onStar={() => starNote(index)}
         isSmallScreen={isSmallScreen}
         onClick={() => viewNote(index)}

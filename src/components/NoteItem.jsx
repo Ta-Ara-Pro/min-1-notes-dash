@@ -21,6 +21,7 @@ import {
 import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined';
 import StarIcon from '@mui/icons-material/Star';
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const NoteItem = ({ index, note, onDelete, onStar, onClick, isSmallScreen }) => {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -32,6 +33,13 @@ const NoteItem = ({ index, note, onDelete, onStar, onClick, isSmallScreen }) => 
     setIsStarred(note.isStarred);
   }, [note.isStarred]);
 
+  // Handle delete note =============
+  // ================================
+  const handleDelete = (index) => {
+    onDelete(index)
+    setOpenDeleteDialog(false)
+    toast.success('فرم با موفقیت حذف شد')
+  }
 
   return (
     <Card
@@ -211,7 +219,7 @@ const NoteItem = ({ index, note, onDelete, onStar, onClick, isSmallScreen }) => 
           <Button onClick={() => setOpenDeleteDialog(false)} >
             انصراف
           </Button>
-          <Button onClick={() => deleteNote} color="error">
+          <Button onClick={() => handleDelete(index)} color="error">
             حذف
           </Button>
         </DialogActions>

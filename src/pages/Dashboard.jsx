@@ -37,7 +37,6 @@ const Dashboard = () => {
     if (tabFromUrl) {
       setTab(tabFromUrl)
     }
-    console.log('tab', tab)
   }, [location.search]);
 
   // DRAWER FUCNTIONS ==============

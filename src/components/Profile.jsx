@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import { Edit, Delete, VisibilityOff, Visibility } from "@mui/icons-material";
 import useNoteStore from "../store";
+import { toast } from "react-toastify";
 
 const Profile = ({user, isNonMobileScreens}) => {
 
@@ -58,8 +59,18 @@ const isSmallScreen = useMediaQuery("(max-width: 435px)")
   // ==============================
   const handleSubmit = (formData) => {
     const { username, password } = formData;
-    editUser(username, password)
-    
+    if (!username || !password) {
+      toast.error("لطفا اطلاعات را به درستی وارد کنید");
+      return;
+    }
+    try {
+      editUser(username, password);
+      toast.success("پروفایل با موفقیت اصلاح شد");
+      setTimeout(() => window.location.reload(), 2500); 
+    } catch (error) {
+      toast.error("مشکلی پیش آمد، لطفا دوباره تلاش کنید");
+      etTimeout(() => window.location.reload(), 2500); 
+    }
   }
 
   // Handle delete account  =======

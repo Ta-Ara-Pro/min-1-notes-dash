@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, IconButton, InputBase, Menu, MenuItem, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, IconButton, InputBase, Menu, MenuItem, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { FilterList, Search, AccountCircle } from "@mui/icons-material";
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import ViewHeadlineIcon from '@mui/icons-material/ViewHeadline';
@@ -26,16 +26,12 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
     const handleMenuClose = (value) => {
         filterNotes(value)
         setSearchQuery(value)
-
         setAnchorEl(null);
     };
 
-    useEffect(() => {
-        console.log('filter query', searchQuery)
-    }, [searchQuery])
-
-    // console.log('filter', searchedNotes)
-
+    // useEffect(() => {
+    //     console.log('filter query', searchQuery)
+    // }, [searchQuery])
 
     // Searching Function ==============
     // =================================
@@ -67,7 +63,7 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
                 sx={{
                     display: "flex",
                     alignItems: "center",
-                    backgroundColor: "#fff",
+                    backgroundColor: palette.background.default,
                     borderRadius: "25px",
                     padding: isNonMobileScreens ? "0.5rem 1rem" : "2px 10px",
                     boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
@@ -97,6 +93,7 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
             >
                 {/* Filter Button */}
                 <Box>
+                <Tooltip title='فیلتر ها ' >
                     <IconButton
                         onClick={handleMenuOpen}
                         sx={{
@@ -106,6 +103,7 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
                     >
                         <FilterList />
                     </IconButton>
+                    </Tooltip>
                     <Menu
                         anchorEl={anchorEl}
                         open={isMenuOpen}
@@ -114,10 +112,6 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
                         transformOrigin={{ vertical: "top", horizontal: "right" }}
                         sx={{ direction: "rtl" }}
                     >
-                        {/* <MenuItem onClick={() => handleMenuClose("فعال")}>فعال</MenuItem>
-                        <MenuItem onClick={() => handleMenuClose("غیر فعال")}>غیر فعال</MenuItem>
-                        <MenuItem onClick={() => handleMenuClose("آرشیو شده")}>آرشیو شده</MenuItem>
-                        <MenuItem onClick={() => handleMenuClose("منتخب")}> منتخب</MenuItem> */}
                         <MenuItem onClick={() => handleMenuClose("فعال")}>فعال</MenuItem>
                         <MenuItem onClick={() => handleMenuClose("غیرفعال")}>غیر فعال</MenuItem>
                         <MenuItem onClick={() => handleMenuClose("آرشیو شده")}>آرشیو شده</MenuItem>
@@ -128,7 +122,8 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
 
                 {/* Display type Button */}
                 <Box>
-                    <IconButton
+                    <Tooltip title='حالت نمایش' >
+ <IconButton
                         onClick={toggleViewMode}
                         sx={{
                             backgroundColor: "#e0e0e0",
@@ -137,6 +132,8 @@ const Navbar = ({ user, toggleViewMode, viewMode }) => {
                     >
                         {viewMode === "row" ? <ViewModuleIcon /> : <ViewHeadlineIcon />}
                     </IconButton>
+                    </Tooltip>
+                   
                 </Box>
             </Box>
 
