@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { darkTheme, lightTheme } from "./theme";
-
+import { ToastContainer } from "react-toastify";
 const App = () => {
 
   const { user, token, mode } = useNoteStore()
@@ -31,6 +31,7 @@ const App = () => {
 
           </Routes>
         </BrowserRouter>
+        <ToastContainer />
       </div>
     </ThemeProvider>
   );

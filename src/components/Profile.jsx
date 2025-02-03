@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -15,20 +15,27 @@ import {
   Menu,
   MenuItem,
   useMediaQuery,
+  Divider,
+  InputAdornment,
 } from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
+import { Edit, Delete, VisibilityOff, Visibility } from "@mui/icons-material";
+import useNoteStore from "../store";
 
 const Profile = ({user, isNonMobileScreens}) => {
 
 const isSmallScreen = useMediaQuery("(max-width: 435px)")
-  const [username, setUsername] = useState(user.username);
-  const [password, setPassword] = useState("********");
+  const [showPassword, setShowPassword] = useState(false);
   const [editField, setEditField] = useState(null);
   const [avatar, setAvatar] = useState("https://img.freepik.com/free-vector/gradient-avatar-illustration_52683-142426.jpg?t=st=1737935542~exp=1737939142~hmac=8a017ea441a19b6250c61a08b61204c8a0f5f6faccfa3cb9e8a69575f7a63884&w=740");
   const [anchorEl, setAnchorEl] = useState(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const { editUser, logout } = useNoteStore();
+  const [formData, setFormData] = useState({
+    username: user.username, password: user.password || ''
+  });
 
-  // Handle avatar menu
+  // Handle avatar menu ===============
+  // ==================================
   const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -37,6 +44,31 @@ const isSmallScreen = useMediaQuery("(max-width: 435px)")
     setAvatar(url);
     setAnchorEl(null);
   };
+
+  // Handle form change ===========
+  // ==============================
+  const handleChange = (e) => {
+    const {name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]:  value,
+    }))
+  }
+  // Handle form submit ===========
+  // ==============================
+  const handleSubmit = (formData) => {
+    const { username, password } = formData;
+    editUser(username, password)
+    
+  }
+
+  // Handle delete account  =======
+  // ==============================
+  const deleteAccount = () => {
+    logout();
+    setOpenDeleteDialog(false);
+    alert("Account deleted!");
+  }
 
   return (
     <Box
@@ -115,10 +147,11 @@ const isSmallScreen = useMediaQuery("(max-width: 435px)")
                 <TextField
                   fullWidth
                   label="نام کاربری:"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  name="username" 
+                  value={formData.username}
+                  onChange={(e) => handleChange(e)}
                   size="small"
-                  sx={{ mr: 2 }}
+                  sx={{ my: 2 }}
                 />
               ) : (
                 <Box sx={{width:'100%'}}><Typography
@@ -131,8 +164,9 @@ const isSmallScreen = useMediaQuery("(max-width: 435px)")
                     marginBottom:'10px'
                   }}
                 >
-                  نام کاربری: 
+                  نام کاربری 
                 </Typography>
+                <Divider sx={{width:'90%',margin:'10px'}}/>
                 <Typography
                   variant="body"
                   sx={{
@@ -142,7 +176,7 @@ const isSmallScreen = useMediaQuery("(max-width: 435px)")
                     whiteSpace: "nowrap",
                   }}
                 >
-                  {username}
+                  {formData.username}
                 </Typography>
                 </Box>
                 
@@ -162,14 +196,17 @@ const isSmallScreen = useMediaQuery("(max-width: 435px)")
                 <TextField
                   fullWidth
                   label="پسورد"
-                  value={password}
-                  type="password"
-                  onChange={(e) => setPassword(e.target.value)}
+                   name="password"
+                  value={formData.password}
+                  type="text"
+                  onChange={(e) => handleChange(e)}
                   size="small"
                   sx={{ mr: 2 }}
+                 
                 />
               ) : (
-                <Box sx={{width:'100%'}}><Typography
+                <Box sx={{width:'100%'}}>
+                  <Typography
                 variant="body1"
                 sx={{
                   flexGrow: 1,
@@ -178,19 +215,25 @@ const isSmallScreen = useMediaQuery("(max-width: 435px)")
                   whiteSpace: "nowrap",
                    marginBottom:'10px'
                 }}
+
               >
-              پسورد:
+              پسورد
               </Typography>
+              <Divider sx={{width:'90%',margin:'10px'}}/>
               <Typography
                 variant="body"
                 sx={{
+                  display:'flex',justifyContent:'space-between',
                   flexGrow: 1,
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
                 }}
               >
-                 {password}
+                {showPassword ? formData.password : "••••"}
+                <IconButton onClick={() => setShowPassword(!showPassword)} sx={{ml:1}}>
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
               </Typography></Box>
                 
               )}
@@ -218,7 +261,7 @@ const isSmallScreen = useMediaQuery("(max-width: 435px)")
                     background: "linear-gradient(90deg, #6c2b94, #186eb4)",
                   },
                 }}
-            // startIcon={<ArrowDropDown />}
+            onClick={() => handleSubmit(formData)}          
           >
             ذخیره تغییرات
           </Button>
@@ -251,7 +294,7 @@ const isSmallScreen = useMediaQuery("(max-width: 435px)")
           <Button onClick={() => setOpenDeleteDialog(false)} color="primary">
             انصراف
           </Button>
-          <Button onClick={() => alert("Account deleted!")} color="error">
+          <Button onClick={() => deleteAccount()} color="error">
             حذف
           </Button>
         </DialogActions>

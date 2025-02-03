@@ -112,26 +112,26 @@ const Dashboard = () => {
           toggleDrawer={toggleDrawer} shrinkDrawer={shrinkDrawer}
           isSmallScreen={isSmallScreen} mode={mode}
         />
-        {tab === 'notes' && 
-        <Navbar user={user} toggleViewMode={toggleViewMode} viewMode={viewMode} />
-        }
 
         {/* Main Content */}
         <Box flexBasis={isNonMobileScreens ? '52%' : '62%'}>
           {tab === 'create' && <AddNoteForm addNote={addNote} />}
           {tab === 'notes' &&
-            <NoteList
-              notes={notes}
-              deleteNote={deleteNote}
-              isMobileScreen={isMobileScreen}
-              isSmallScreen={isSmallScreen}
-              viewMode={viewMode}
-              tab={tab}
-              searchedNotes={searchedNotes}
-            />
+            <>
+              <Navbar user={user} toggleViewMode={toggleViewMode} viewMode={viewMode} />
+              <NoteList
+                notes={notes}
+                deleteNote={deleteNote}
+                isMobileScreen={isMobileScreen}
+                isSmallScreen={isSmallScreen}
+                viewMode={viewMode}
+                tab={tab}
+                searchedNotes={searchedNotes}
+              />
+            </>
           }
           {tab === 'profile' && <Profile user={user} isNonMobileScreens={isNonMobileScreens} />}
-          {tab && tab.startsWith("view/") && <ViewNote isNonMobileScreens={isNonMobileScreens}/>}
+          {tab && tab.startsWith("view/") && <ViewNote isNonMobileScreens={isNonMobileScreens} />}
           {tab && tab.startsWith("edit/") && <EditNote />}
 
         </Box>

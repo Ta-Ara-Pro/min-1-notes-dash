@@ -30,6 +30,7 @@ const Sidebar = ({ isOpen, toggleDrawer, shrinkDrawer, isSmallScreen, mode }) =>
   const { palette } = useTheme()
 
   // Adjust the drawer state on screen size change
+  // =============================================
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 768) {
@@ -71,6 +72,7 @@ const Sidebar = ({ isOpen, toggleDrawer, shrinkDrawer, isSmallScreen, mode }) =>
     }}>
       <Drawer
         variant="permanent"
+        // direction= 'rtl'
         anchor="right"
         open={isOpen}
         sx={{
@@ -92,7 +94,7 @@ const Sidebar = ({ isOpen, toggleDrawer, shrinkDrawer, isSmallScreen, mode }) =>
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            p: '3',
+            p: '3', 
           }}
         >
           {isOpen && <Typography variant="h6" sx={{ p: '10px' }}>داشبورد</Typography>}
@@ -123,11 +125,11 @@ const Sidebar = ({ isOpen, toggleDrawer, shrinkDrawer, isSmallScreen, mode }) =>
 
 
           {menuItems.map((item, index) => (
-            <ListItem key={index} disablePadding>
+            <ListItem key={index} disablePadding >
               <Tooltip title={!isOpen ? item.text : ''} placement="right">
                 <Link
                   to={item.path}
-                  style={{ textDecoration: 'none', color: 'inherit', width: '100%' }} 
+                  style={{ textDecoration: 'none', color: 'inherit', width: '100%'}} 
                 >
                   <ListItemButton component="div">
                     <ListItemIcon sx={{ marginY: 2 }}>{item.icon}</ListItemIcon>

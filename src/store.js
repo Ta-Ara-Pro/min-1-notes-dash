@@ -18,7 +18,7 @@ const useNoteStore = create((set, get) => ({
       (state) => {
         const updatedNotes = [...state.notes, { ...note }];
         localStorage.setItem('notes', JSON.stringify(updatedNotes));
-        return { 
+        return {
           notes: updatedNotes,
           searchedNotes: updatedNotes,
         };
@@ -28,29 +28,29 @@ const useNoteStore = create((set, get) => ({
   editNote: (index, data) =>
     set((state) => {
       if (index < 0 || index >= state.notes.length) return { error: "یادداشت مورد نظر یافت نشد" };
-  
+
       console.log('incomming data', data)
       const updatedNotes = state.notes.map((note, i) =>
         i === index
           ? {
-              ...note,
-              title: data.title || note.title,
-              note: data.note || note.note,
-              state: data.state || note.state,
-              date: data.date || note.date,
-              important: data.important !== undefined ? data.important  : note.important,
-            }
+            ...note,
+            title: data.title || note.title,
+            note: data.note || note.note,
+            state: data.state || note.state,
+            date: data.date || note.date,
+            important: data.important !== undefined ? data.important : note.important,
+          }
           : note
       );
-      console.log('updated notes ', updatedNotes )
+      console.log('updated notes ', updatedNotes)
 
       localStorage.setItem("notes", JSON.stringify(updatedNotes));
-      return { 
+      return {
         notes: updatedNotes,
         searchedNotes: updatedNotes,
-       };
+      };
     }),
-  
+
   deleteNote: (index) =>
     set((state) => {
       const updatedNotes = state.notes.filter((_, i) => i !== index);
@@ -58,13 +58,28 @@ const useNoteStore = create((set, get) => ({
       return {
         notes: updatedNotes,
         searchedNotes: updatedNotes,
-       };
+      };
     }),
   // Set user data and token, and persist them in localStorage
   setUser: (user, token) => {
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token', token);
     set({ user, token });
+  },
+  // Edit user credentials
+  editUser: (username, password) => {
+    set((state) => {
+      const user = state.user;
+      const updatedUser = {
+        ...user,
+        username: username || user.username,
+        password: password || user.password || ''
+      }
+      localStorage.setItem('user', JSON.stringify(updatedUser))
+      return {
+        user: updatedUser
+      }
+    })
   },
   // Logout: 
   logout: () => {
@@ -91,30 +106,30 @@ const useNoteStore = create((set, get) => ({
       return {
         notes: updatedNotes,
         searchedNotes: updatedNotes,
-       };
+      };
     });
   },
   // Search notes
   searchNotes: (query) => {
     const allNotes = get().notes || [];
     if (!query.trim()) {
-      set({ notes:allNotes } )
-      }
-console.log('all notes', allNotes)
+      set({ notes: allNotes })
+    }
+    console.log('all notes', allNotes)
     const updateSearchedNotes = allNotes.filter((note) => {
       const title = note.title ? note.title : '';
       const content = note.note ? note.note : '';
       return title.includes(query) || content.includes(query);
     });
 
-    set({ searchedNotes:updateSearchedNotes } )
+    set({ searchedNotes: updateSearchedNotes })
 
     localStorage.setItem("searchedNotes", JSON.stringify(updateSearchedNotes));
     return updateSearchedNotes;
 
   },
   // Filter notes
-   filterNotes: ( stateFilter ) => {
+  filterNotes: (stateFilter) => {
     const allNotes = get().notes || []
 
     const filteredNotes = allNotes.filter((note) => {
@@ -127,7 +142,7 @@ console.log('all notes', allNotes)
       }
       return true; // If stateFilter is undefined or another type, return all notes
     });
-    
+
     console.log('store filter result', filteredNotes)
 
     set({ searchedNotes: filteredNotes });
