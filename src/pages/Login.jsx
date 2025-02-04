@@ -100,7 +100,7 @@ const toBase64 = (string) => {
           <Box component="form" noValidate onSubmit={handleLogin}
            sx={{display:'flex', flexDirection:'column', direction: 'rtl', alignItems:'start'}}>
             {/* Email Field */}
-            <InputLabel textAlign='right' width='100%'>نام کاربری</InputLabel>
+            <InputLabel sx={{ textAlign:'right', width:'100%'}}>نام کاربری</InputLabel>
             <TextField
               margin="normal"
               required
@@ -110,7 +110,7 @@ const toBase64 = (string) => {
               onChange={(e) => setUsername(e.target.value)}
             />
             {/* Password Field */}
-            <InputLabel textAlign='right' width='100%'>رمز عبور </InputLabel>
+            <InputLabel sx={{ textAlign:'right', width:'100%'}}>رمز عبور </InputLabel>
             <TextField
               margin="normal"
               required

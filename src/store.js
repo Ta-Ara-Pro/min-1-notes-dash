@@ -84,6 +84,7 @@ const useNoteStore = create((set, get) => ({
   logout: () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    localStorage.removeItem('notes')
     set({ user: null, token: '', notes: [] });
   },
   // theme:
