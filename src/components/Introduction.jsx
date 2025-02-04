@@ -12,7 +12,8 @@ const Introduction = ({ isNonMobileScreens, isMobileScreen }) => {
             paddingY: isNonMobileScreens ? '2rem' : '1rem',
             display: 'flex', flexDirection: 'column', gap: '1rem'
         }}>
-            <Typography variant={isWidth610 ? 'h5' : isMobileScreen ? 'h6' : 'h4'}>
+            <Typography variant={isWidth610 ? 'h5' : isMobileScreen ? 'h6' : 'h4'}
+            sx={{ textShadow: mode === 'light' ? '4px 4px 8px rgba(0, 0, 0, 0.2)' : '4px 4px 8px rgba(231, 231, 231, 0.3)'}}>
                 به اپلیکیشن یادداشت‌برداری خوش آمدید!
             </Typography>
             <Divider sx={{ my: '1rem' }} />

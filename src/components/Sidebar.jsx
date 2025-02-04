@@ -12,6 +12,9 @@ import {
   Tooltip,
   Divider,
   useTheme,
+  Dialog,
+  DialogTitle,
+  DialogActions,
 } from '@mui/material';
 import {
   Home as HomeIcon,
@@ -29,7 +32,8 @@ import { Link } from 'react-router-dom';
 import useNoteStore from '../store';
 
 const Sidebar = ({ isOpen, toggleDrawer, shrinkDrawer, isSmallScreen, mode }) => {
-  const { toggleTheme } = useNoteStore()
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const { toggleTheme, logout } = useNoteStore()
   const { palette } = useTheme()
 
   // Adjust the drawer state on screen size change
@@ -45,7 +49,6 @@ const Sidebar = ({ isOpen, toggleDrawer, shrinkDrawer, isSmallScreen, mode }) =>
 
     handleResize(); // Adjust on mount
     window.addEventListener('resize', handleResize);
-
     // Cleanup the event listener on component unmount
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -54,7 +57,6 @@ const Sidebar = ({ isOpen, toggleDrawer, shrinkDrawer, isSmallScreen, mode }) =>
     { text: 'ایجاد یادداشت', icon: <BorderColorIcon />, path: '/?tab=create' },
     { text: 'یادداشت ها', icon: <FormatListBulletedIcon />, path: '/?tab=notes' },
     { text: 'پروفایل', icon: <AccountCircleIcon />, path: '/?tab=profile' },
-    { text: 'خروج', icon: <LogoutIcon /> },
   ];
   const modeButton = [
     {
@@ -62,6 +64,14 @@ const Sidebar = ({ isOpen, toggleDrawer, shrinkDrawer, isSmallScreen, mode }) =>
       icon: { dark: <DarkModeIcon />, light: <LightModeIcon /> }
     }
   ];
+
+   // Handle delete account  =======
+  // ==============================
+  const deleteAccount = () => {
+    logout();
+    setOpenDeleteDialog(false);
+    alert("Account deleted!");
+  }
 
 
 
@@ -101,8 +111,8 @@ const Sidebar = ({ isOpen, toggleDrawer, shrinkDrawer, isSmallScreen, mode }) =>
           }}
         >
           {isOpen && <Typography variant="h6" sx={{ p: '10px' }}>داشبورد</Typography>}
-          <IconButton onClick={toggleDrawer}>
-            <MenuIcon sx={{display:'flex', mr: !isOpen && '10px'}}/>
+          <IconButton onClick={toggleDrawer}  sx={{display:'flex', mr: isOpen ? 0 : '10px'}}>
+            <MenuIcon/>
           </IconButton>
         </Box>
         <Divider
@@ -143,8 +153,34 @@ const Sidebar = ({ isOpen, toggleDrawer, shrinkDrawer, isSmallScreen, mode }) =>
             </ListItem>
 
           ))}
+
+           <ListItem  disablePadding >
+              <Tooltip title={!isOpen ? "خروج" : ''} placement="right">
+                  <ListItemButton component="div" onClick={() => setOpenDeleteDialog(true)}>
+                    <ListItemIcon sx={{ marginY: 2 }}><LogoutIcon /> </ListItemIcon>
+                    {isOpen ? <ListItemText primary= 'خروج' /> : ''}
+                  </ListItemButton>
+              </Tooltip>
+            </ListItem>
+
         </List>
       </Drawer>
+
+           {/* Delete Confirmation Dialog */}
+           <Dialog
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+      >
+        <DialogTitle>آیا از پاک کردن حساب خود اطمینان دارید؟</DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setOpenDeleteDialog(false)} color="primary">
+            انصراف
+          </Button>
+          <Button onClick={() => deleteAccount()} color="error">
+            حذف
+          </Button>
+        </DialogActions>
+      </Dialog>
 
     </Box>
 

@@ -131,8 +131,8 @@ const NoteGrid = ({ index, note, onDelete, onStar, onClick, onEdit }) => {
         </div>
 
         {/* Bottom Part */}
-        <Box align="right" display="flex" justifyContent="space-between">
-          <IconButton onClick={onClick}>
+        <Box align="right" display="flex" justifyContent="space-between" alignItems='center'>
+          <IconButton onClick={onClick} sx={{borderRadius:'10px'}}>
             <VisibilityOutlinedIcon sx={{ fontSize: '22px' }} />
           </IconButton>
           <Box align="right" display="flex" justifyContent="flex-end" gap="8px">

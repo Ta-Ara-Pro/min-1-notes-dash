@@ -6,6 +6,7 @@ import {
   Button,
   Link,
   Paper,
+  InputLabel,
 } from "@mui/material";
 import useNoteStore from "../store";
 
@@ -26,8 +27,8 @@ const toBase64 = (string) => {
     const baseString = `${username}:${password}:${Date.now()}`;
     return toBase64(baseString) 
       .split("")
-      .sort(() => Math.random() - 0.5) // رندوم‌سازی ترتیب کاراکترها
-      .join(""); // ادغام به یک رشته
+      .sort(() => Math.random() - 0.5) 
+      .join(""); 
   };
   
 
@@ -58,12 +59,19 @@ const toBase64 = (string) => {
         sx={{
           flex: 1,
           display: { xs: "none", md: "block" },
-          backgroundImage: "url(https://source.unsplash.com/random/?technology)",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
+          padding:'0px 2rem'
         }}
-      />
+      >
+        <img src='/note3.png' alt="banner"  style={{
+      width: "100%", 
+      height: "100%", 
+      objectFit: "contain", 
+      objectPosition: "center", 
+    }}/>
+      </Box>
       {/* Right Side: Form */}
       <Paper
         elevation={6}
@@ -83,31 +91,31 @@ const toBase64 = (string) => {
             textAlign: "center",
           }}
         >
-          <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
+          <Typography component="h1" variant="h5" sx={{ mb: 2, textAlign:'right', direction:'rtl' }}>
             به اپلیکیشن یادداشت های خود خوش آمدید!
           </Typography>
           <Typography variant="h6" sx={{ color: "text.secondary", mb: 3 }}>
             لطفا وارد حساب خود شوید
           </Typography>
-          <Box component="form" noValidate onSubmit={handleLogin}>
+          <Box component="form" noValidate onSubmit={handleLogin}
+           sx={{display:'flex', flexDirection:'column', direction: 'rtl', alignItems:'start'}}>
             {/* Email Field */}
+            <InputLabel textAlign='right' width='100%'>نام کاربری</InputLabel>
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
-              label="نام کاربری"
               name="username"
               onChange={(e) => setUsername(e.target.value)}
-              autoFocus
             />
             {/* Password Field */}
+            <InputLabel textAlign='right' width='100%'>رمز عبور </InputLabel>
             <TextField
               margin="normal"
               required
               fullWidth
               name="password"
-              label="پسورد"
               type="password"
               id="password"
               onChange={(e) => setPassword(e.target.value)}
