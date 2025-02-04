@@ -16,6 +16,7 @@ import Profile from "../components/Profile";
 import NoteList from "../components/NoteList";
 import ViewNote from "../components/ViewNote";
 import EditNote from "../components/EditNote";
+import Introduction from "../components/Introduction";
 
 const Dashboard = () => {
   const location = useLocation()
@@ -114,6 +115,7 @@ const Dashboard = () => {
 
         {/* Main Content */}
         <Box flexBasis={isNonMobileScreens ? '52%' : '62%'}>
+          {tab === '' && <Introduction isNonMobileScreens={isNonMobileScreens} isMobileScreen={isMobileScreen}/>}
           {tab === 'create' && <AddNoteForm addNote={addNote} />}
           {tab === 'notes' &&
             <>
