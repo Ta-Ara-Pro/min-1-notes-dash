@@ -20,6 +20,9 @@ import {
   Logout as LogoutIcon,
   Menu as MenuIcon,
 } from '@mui/icons-material';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { Link } from 'react-router-dom';
@@ -48,9 +51,9 @@ const Sidebar = ({ isOpen, toggleDrawer, shrinkDrawer, isSmallScreen, mode }) =>
   }, []);
 
   const menuItems = [
-    { text: 'ایجاد یادداشت', icon: <HomeIcon />, path: '/?tab=create' },
-    { text: 'یادداشت ها', icon: <InfoIcon />, path: '/?tab=notes' },
-    { text: 'پروفایل', icon: <SettingsIcon />, path: '/?tab=profile' },
+    { text: 'ایجاد یادداشت', icon: <BorderColorIcon />, path: '/?tab=create' },
+    { text: 'یادداشت ها', icon: <FormatListBulletedIcon />, path: '/?tab=notes' },
+    { text: 'پروفایل', icon: <AccountCircleIcon />, path: '/?tab=profile' },
     { text: 'خروج', icon: <LogoutIcon /> },
   ];
   const modeButton = [
@@ -99,7 +102,7 @@ const Sidebar = ({ isOpen, toggleDrawer, shrinkDrawer, isSmallScreen, mode }) =>
         >
           {isOpen && <Typography variant="h6" sx={{ p: '10px' }}>داشبورد</Typography>}
           <IconButton onClick={toggleDrawer}>
-            <MenuIcon />
+            <MenuIcon sx={{display:'flex', mr: !isOpen && '10px'}}/>
           </IconButton>
         </Box>
         <Divider

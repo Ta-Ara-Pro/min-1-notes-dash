@@ -29,7 +29,6 @@ const useNoteStore = create((set, get) => ({
     set((state) => {
       if (index < 0 || index >= state.notes.length) return { error: "یادداشت مورد نظر یافت نشد" };
 
-      console.log('incomming data', data)
       const updatedNotes = state.notes.map((note, i) =>
         i === index
           ? {
@@ -101,7 +100,6 @@ const useNoteStore = create((set, get) => ({
       const note = updatedNotes[index];
       note.isStarred = !note.isStarred;
       localStorage.setItem('notes', JSON.stringify(updatedNotes));
-      console.log('starred note', note)
 
       return {
         notes: updatedNotes,
@@ -115,7 +113,6 @@ const useNoteStore = create((set, get) => ({
     if (!query.trim()) {
       set({ notes: allNotes })
     }
-    console.log('all notes', allNotes)
     const updateSearchedNotes = allNotes.filter((note) => {
       const title = note.title ? note.title : '';
       const content = note.note ? note.note : '';
@@ -143,7 +140,6 @@ const useNoteStore = create((set, get) => ({
       return true; // If stateFilter is undefined or another type, return all notes
     });
 
-    console.log('store filter result', filteredNotes)
 
     set({ searchedNotes: filteredNotes });
   }

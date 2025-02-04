@@ -33,7 +33,6 @@ const AddNoteForm = ({ addNote }) => {
   const selectedState = watch("state");
 
   const onSubmit = (data) => {
-    console.log(data);
     addNote(data);
     reset();
     toast.success('فرم با موفقیت افزوده شد')

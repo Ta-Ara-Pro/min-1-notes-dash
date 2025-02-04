@@ -40,7 +40,6 @@ const toBase64 = (string) => {
       const token = generateToken(username, password);
       setUser({ username }, token);
 
-      console.log("Login successful!");
     } else {
       console.error("Username and password are required.");
     }

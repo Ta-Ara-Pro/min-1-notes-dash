@@ -11,7 +11,6 @@ const App = () => {
 
   const { user, token, mode } = useNoteStore()
   const isAuth = Boolean(user && token)
-  console.log('isAuth', isAuth)
 
   return (
     <ThemeProvider theme={mode === "light" ? lightTheme : darkTheme}>
