@@ -12,10 +12,27 @@ const Introduction = ({ isNonMobileScreens, isMobileScreen }) => {
             paddingY: isNonMobileScreens ? '2rem' : '1rem',
             display: 'flex', flexDirection: 'column', gap: '1rem'
         }}>
-            <Typography variant={isWidth610 ? 'h5' : isMobileScreen ? 'h6' : 'h4'}
-            sx={{ textShadow: mode === 'light' ? '4px 4px 8px rgba(0, 0, 0, 0.2)' : '4px 4px 8px rgba(231, 231, 231, 0.3)'}}>
-                به اپلیکیشن یادداشت‌برداری خوش آمدید!
+            <Typography variant='h4'
+                sx={{
+                    fontSize: isMobileScreen ? 'body1' : 'h4',
+                    '@media (max-width: 803px)': {
+                        fontSize: '1.52rem',
+                    },
+                    '@media (max-width: 480px)': {
+                        fontSize: '1rem',
+                    },
+                    textShadow: mode === 'light' ? '4px 4px 8px rgba(0, 0, 0, 0.2)' : '4px 4px 8px rgba(231, 231, 231, 0.3)'
+                }}>
+                به اپلیکیشن یادداشت‌برداری
+                <span
+                    style={{
+                        backgroundImage: "linear-gradient(to right,rgb(215, 82, 255),rgb(0, 183, 255))",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                    }}>  تیک نوت </span>
+                خوش آمدید!
             </Typography>
+
             <Divider sx={{ my: '1rem' }} />
             <Box sx={{ display: 'flex', alignSelf: 'center', marginBottom: isWidth610 ? '1rem' : '2rem' }}>
                 <img src='/note4.jpg' alt='banner'
